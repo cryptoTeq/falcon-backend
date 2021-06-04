@@ -18,8 +18,10 @@ export class User {
   lastName: string;
 
   @Column({ default: false })
+  @AutoMap()
   kyc: boolean;
 
   @Column({ default: true })
+  @AutoMap()
   isActive: boolean;
 }

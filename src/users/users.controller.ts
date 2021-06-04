@@ -1,7 +1,7 @@
 import { InjectMapper, MapPipe } from '@automapper/nestjs';
 import { Mapper } from '@automapper/types';
-import { ValidationPipe } from '../pipes/validation.pipe';
-import { Body, Controller, Get, Post, Put } from '@nestjs/common';
+
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { CreateUserResDto, CreateUserReqDto } from './dto/createUserDto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -22,10 +22,16 @@ export class UsersController {
     return 'hello';
   }
 
-  @Post()
-  async create(
-    @Body(new ValidationPipe()) userDto: CreateUserReqDto,
+  @Get(':username')
+  async findOne(
+    @Param('username') username: string,
   ): Promise<CreateUserResDto> {
+    const user = await this.userService.findOne('7');
+    return this.mapper.map(user, CreateUserResDto, User);
+  }
+
+  @Post()
+  async create(@Body() userDto: CreateUserReqDto): Promise<CreateUserResDto> {
     const user = this.mapper.map(userDto, User, CreateUserReqDto);
     const saveUser = await this.userService.create(user);
     return this.mapper.map<User, CreateUserResDto>(
@@ -36,9 +42,9 @@ export class UsersController {
   }
 
   @Put()
-  update(@Body(new ValidationPipe()) userDto: CreateUserReqDto): string {
+  update(@Body() userDto: CreateUserReqDto): string {
     const user = this.mapper.map(userDto, User, CreateUserReqDto);
-    console.log(`user`, user);
+    console.log(`user`, user, user instanceof User);
     return 'createUser';
   }
 }

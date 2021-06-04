@@ -1,5 +1,5 @@
 import { AutoMap } from '@automapper/classes';
-import { IsString } from 'class-validator';
+import { IsString, IsBoolean } from 'class-validator';
 
 export class UserBaseDto {
   @AutoMap()
@@ -9,6 +9,10 @@ export class UserBaseDto {
   @AutoMap()
   @IsString()
   lastName: string;
+
+  @AutoMap()
+  @IsBoolean()
+  kyc: boolean;
 }
 
 class CreateUserBaseDto extends UserBaseDto {}
