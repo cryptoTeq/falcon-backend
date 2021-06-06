@@ -24,6 +24,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Installing Node
+          command: apt install -y node
+      - run:
           name: Deploying to GCP
           command: node -v
 
