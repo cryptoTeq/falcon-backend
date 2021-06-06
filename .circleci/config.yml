@@ -16,7 +16,8 @@ jobs:
           command: npm t
   deploy_to_staging:
     docker:
-      - image: cimg/node:14.10.1
+      # - image: cimg/node:14.10.1
+      - image: google/cloud-sdk
         auth:
           username: hypbox
           password: $DOCKER_HUB_PASSWORD
@@ -24,7 +25,7 @@ jobs:
       - checkout
       - run:
           name: Deploying to GCP
-          command: echo "I am on mastero"
+          command: node -v
 
 workflows:
   version: 2
