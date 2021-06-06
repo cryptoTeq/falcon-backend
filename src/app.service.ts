@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
 
+export interface RootResponse {
+  ok: boolean;
+}
+
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  getRoot(): RootResponse {
+    return { ok: true };
   }
 }

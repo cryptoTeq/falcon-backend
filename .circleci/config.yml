@@ -1,0 +1,42 @@
+version: 2.1
+jobs:
+  build_test:
+    docker:
+      - image: cimg/node:14.10.1
+        auth:
+          username: hypbox
+          password: $DOCKER_HUB_PASSWORD
+    steps:
+      - checkout
+      - run:
+          name: Installing Dependencies
+          command: npm i
+      - run:
+          name: Running Tests
+          command: npm t
+  deploy_to_staging:
+    docker:
+      - image: cimg/node:14.10.1
+        auth:
+          username: hypbox
+          password: $DOCKER_HUB_PASSWORD
+    steps:
+      - checkout
+      - run:
+          name: Deploying to GCP
+          command: echo "I am on mastero"
+
+workflows:
+  version: 2
+  build_test_workflow:
+    jobs:
+      - build_test
+
+  build_test_deploy_workflow:
+    when:
+      equal: [main, << pipeline.git.branch >>]
+    jobs:
+      - build_test
+      - deploy_to_staging:
+          requires:
+            - build_test
