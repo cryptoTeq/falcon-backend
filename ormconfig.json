@@ -6,5 +6,8 @@
   "password": "qGZTC6u9l29mgB7MU160CVfX9DA-BJ9g",
   "database": "cmiowwxx",
   "entities": ["dist/**/*.entity{.ts,.js}"],
+  "seeds": ["dist/seeds/**/*.seeds{.ts,.js}"],
+  "factories": ["dist/factories/**/*{.ts,.js}"],
+
   "synchronize": true
 }

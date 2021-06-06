@@ -1,7 +1,18 @@
 import { InjectMapper, MapPipe } from '@automapper/nestjs';
+import { ConfigService } from '@nestjs/config';
 import { Mapper } from '@automapper/types';
 
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+
 import { CreateUserResDto, CreateUserReqDto } from './dto/createUserDto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -9,6 +20,7 @@ import { UsersService } from './users.service';
 @Controller('users')
 export class UsersController {
   constructor(
+    private configService: ConfigService,
     private readonly userService: UsersService,
     @InjectMapper('classMapper') private mapper: Mapper,
   ) {
@@ -23,10 +35,17 @@ export class UsersController {
   }
 
   @Get(':username')
+  // @UseGuards(JwtAuthGuard)
   async findOne(
     @Param('username') username: string,
   ): Promise<CreateUserResDto> {
-    const user = await this.userService.findOne('7');
+    console.log(`username`, username);
+    console.log(`config`, this.configService.get<string>('sampleConfig'));
+    const user = await this.userService.findOne('2');
+    console.log(`user`, user);
+    console.log(`avatar`, user.getAvatarUrl());
+    console.log(`local`, user.getLocale());
+    console.log(`timezone`, user.getTimezone());
     return this.mapper.map(user, CreateUserResDto, User);
   }
 
