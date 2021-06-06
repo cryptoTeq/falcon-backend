@@ -11,7 +11,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 import { CreateUserResDto, CreateUserReqDto } from './dto/createUserDto';
 import { User } from './user.entity';
@@ -30,8 +30,8 @@ export class UsersController {
   }
 
   @Get()
-  findAll(): string {
-    return 'hello';
+  findAll() {
+    return { ok: true };
   }
 
   @Get(':username')
