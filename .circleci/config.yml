@@ -25,7 +25,7 @@ jobs:
       - checkout
       - run:
           name: Installing Node
-          command: apt install -y nodejs=14.24.0
+          command: apt install -y nodejs=14.2.0
       - run:
           name: Deploying to GCP
           command: node -v
