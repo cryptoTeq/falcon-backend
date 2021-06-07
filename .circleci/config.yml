@@ -30,7 +30,6 @@ jobs:
             node -v
             npm -v
             ls
-
 workflows:
   version: 2
   build_test_workflow:
