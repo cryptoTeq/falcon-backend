@@ -30,7 +30,6 @@ jobs:
           name: Deploying to App Engine
           command: |
             echo ${GCLOUD_SERVICE_KEY} > /tmp/sa_key.json
-            ls /tmp/sa_key.json
             gcloud auth activate-service-account --key-file=/tmp/sa_key.json
             rm /tmp/sa_key.json
             gcloud config set project falcon-314920
@@ -43,11 +42,10 @@ workflows:
     jobs:
       - build_test
 
-  build_test_deploy_workflow:
+  deploy_workflow:
     when:
       equal: [main, << pipeline.git.branch >>]
     jobs:
-      - build_test
       - deploy_to_staging:
           requires:
             - build_test
