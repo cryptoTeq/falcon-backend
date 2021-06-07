@@ -42,9 +42,5 @@ workflows:
     jobs:
       - build_test
       - deploy_to_staging:
-          filters:
-            branches:
-              only:
-                - main
           requires:
             - build_test
