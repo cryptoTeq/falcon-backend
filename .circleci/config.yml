@@ -30,6 +30,7 @@ jobs:
           name: Deploying to App Engine
           command: |
             echo ${GCLOUD_SERVICE_KEY} > /tmp/sa_key.json
+            echo ${GCLOUD_SERVICE_KEY}
             gcloud auth activate-service-account --key-file=/tmp/sa_key.json
             rm /tmp/sa_key.json
             gcloud config set project falcon-314920
