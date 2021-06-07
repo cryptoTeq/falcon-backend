@@ -24,11 +24,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Installing Node
-          command: |
-            apt install -y nodejs
-            node -v
-      - run:
           name: Deploying to App Engine
           command: |
             echo ${GCLOUD_SERVICE_KEY} > /tmp/sa_key.json
