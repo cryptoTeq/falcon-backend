@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  build_test:
+  test:
     docker:
       - image: cimg/node:14.10.1
         auth:
@@ -14,7 +14,7 @@ jobs:
       - run:
           name: Running Tests
           command: npm t
-  deploy_to_staging:
+  build_deploy_to_staging:
     docker:
       # - image: cimg/node:14.10.1
       - image: google/cloud-sdk:slim
@@ -28,17 +28,18 @@ jobs:
           command: |
             apt install -y nodejs
             node -v
+            npm -v
             ls
 
 workflows:
   version: 2
   build_test_workflow:
     jobs:
-      - build_test
-      - deploy_to_staging:
+      - test
+      - build_deploy_to_staging:
           filters:
             branches:
               only:
                 - main
           requires:
-            - build_test
+            - test
