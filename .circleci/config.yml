@@ -41,11 +41,10 @@ workflows:
   build_test_workflow:
     jobs:
       - build_test
-
-  deploy_workflow:
-    when:
-      equal: [main, << pipeline.git.branch >>]
-    jobs:
       - deploy_to_staging:
+          filters:
+            branches:
+              only:
+                - master
           requires:
             - build_test
