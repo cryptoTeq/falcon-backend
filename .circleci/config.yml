@@ -1,5 +1,24 @@
 version: 2.1
 jobs:
+  checkout:
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - persist_to_workspace:
+          root: ~/repo
+  build:
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run:
+          name: Build TypeScript code
+          command: npm run build
+
+      - persist_to_workspace:
+          root: ~/repo
   test:
     docker:
       - image: cimg/node:14.10.1
