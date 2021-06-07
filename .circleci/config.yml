@@ -32,7 +32,6 @@ jobs:
             echo ${GCLOUD_SERVICE_KEY} > /tmp/sa_key.json
             gcloud auth activate-service-account --key-file=/tmp/sa_key.json
             rm /tmp/sa_key.json
-
             gcloud config set project falcon-314920
             gcloud config set compute/region us-central
             gcloud app deploy --log-http --verbosity=debug
