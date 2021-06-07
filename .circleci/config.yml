@@ -24,11 +24,15 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Installing Nodejs
+          name: Installing Nodejs and NPM
           command: |
             apt install -y nodejs npm
-            npm -v
-            npm run build
+      - run:
+          name: Installing Dependencies
+          command: npm i
+      - run:
+          name: Building
+          command: npm run build
       - run:
           name: Deploying to App Engine
           command: |
