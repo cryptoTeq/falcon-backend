@@ -11,7 +11,7 @@
   },
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "npx -v",
+    "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "npm run start:prod",
     "start:dev": "nest start --watch",
@@ -27,7 +27,6 @@
     "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
     "schema:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop",
     "schema:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync",
-    "prepare": "npm run gcp-build",
     "gcp-build": "npm run build",
     "deploy": "gcloud app deploy"
   },
