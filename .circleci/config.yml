@@ -41,7 +41,7 @@ jobs:
             rm /tmp/sa_key.json
             gcloud config set project falcon-314920
             gcloud config set compute/region us-central
-            gcloud app deploy --log-http --verbosity=debug
+            gcloud app deploy
 workflows:
   version: 2
   build_test_workflow:
