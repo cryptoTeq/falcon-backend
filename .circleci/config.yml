@@ -25,14 +25,13 @@ jobs:
       - checkout
       - run:
           name: Installing Nodejs
-          command: echo 0 && apt install -y nodejs
-      - run:
-          name: Building
-          command: echo 1 && npm run build
+          command: |
+            apt install -y nodejs
+            npm -v
+            npm run build
       - run:
           name: Deploying to App Engine
           command: |
-            echo 2
             echo ${GCLOUD_SERVICE_KEY} > /tmp/sa_key.json
             gcloud auth activate-service-account --key-file=/tmp/sa_key.json
             rm /tmp/sa_key.json
