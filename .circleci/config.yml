@@ -28,7 +28,6 @@ jobs:
           command: |
             apt install -y nodejs
             node -v
-            npm -v
       - run:
           name: Deploying to App Engine
           command: |
