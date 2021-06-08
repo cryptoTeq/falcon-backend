@@ -32,7 +32,7 @@ jobs:
           command: npm i
       - run:
           name: Building
-          command: npm run build && ls -lah
+          command: npm run build
       - run:
           name: Deploying to App Engine
           command: |
