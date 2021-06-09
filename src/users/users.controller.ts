@@ -9,6 +9,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -35,17 +36,14 @@ export class UsersController {
   }
 
   @Get(':username')
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async findOne(
     @Param('username') username: string,
+    @Req() req: any,
   ): Promise<CreateUserResDto> {
-    console.log(`username`, username);
-    console.log(`config`, this.configService.get<string>('sampleConfig'));
-    const user = await this.userService.findOne('2');
-    console.log(`user`, user);
-    console.log(`avatar`, user.getAvatarUrl());
-    console.log(`local`, user.getLocale());
-    console.log(`timezone`, user.getTimezone());
+    console.log(`req.user;`, req.user);
+    // console.log(`config`, this.configService.get<string>('sampleConfig'));
+    const user = await this.userService.findById(2);
     return this.mapper.map(user, CreateUserResDto, User);
   }
 

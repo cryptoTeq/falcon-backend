@@ -18,3 +18,4 @@ export class UserBaseDto {
 class CreateUserBaseDto extends UserBaseDto {}
 export class CreateUserReqDto extends CreateUserBaseDto {}
 export class CreateUserResDto extends CreateUserBaseDto {}
+export class UserPreferencesResDto {}

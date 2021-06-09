@@ -8,12 +8,14 @@ const DEFAULT_VALUES = {
   timezone: 'america/toronto',
 };
 
-export interface Preferences {
+export class Preferences {
+  @AutoMap()
   locale: string;
+  @AutoMap()
   timezone: string;
 }
 
-@Entity()
+@Entity('users')
 export class User extends BaseEntity {
   @AutoMap()
   @Column({ length: 100 })
