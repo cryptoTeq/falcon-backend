@@ -1,11 +1,11 @@
 import { MyController } from './my.controller';
-import { UsersService } from './users.service';
+import { UsersService } from '../users/users.service';
 import { Mapper } from '@automapper/types';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import { User } from '../users/user.entity';
 import { createMapper } from '@automapper/core';
 import { classes } from '@automapper/classes';
-import { CreateUserResDto } from './dto/createUserDto';
+import { UserBaseDto } from '../users/dto/userDto';
 
 const getUser = (): User => {
   let getAvatarUrl = jest.fn();
@@ -45,7 +45,7 @@ const getCreateUserResDto = ({
   firstName,
   kyc,
   lastName,
-}: User): CreateUserResDto => ({ firstName, kyc, lastName });
+}: User): UserBaseDto => ({ firstName, kyc, lastName });
 
 describe('My Controller', () => {
   let myController: MyController;
@@ -62,7 +62,7 @@ describe('My Controller', () => {
   it('should return hello', async () => {
     const user = getUser();
     jest.spyOn(usersService, 'findById').mockImplementation(async () => user);
-    const { firstName, kyc, lastName } = await myController.getMe('username', {
+    const { firstName, kyc, lastName } = await myController.myUser({
       user: { id: user.id },
     });
     const {

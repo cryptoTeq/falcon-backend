@@ -1,15 +1,10 @@
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/types';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
-
-import {
-  CreateUserResDto,
-  CreateUserReqDto,
-  UserPreferencesResDto,
-} from './dto/createUserDto';
-import { Preferences, User } from './user.entity';
-import { UsersService } from './users.service';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { MyUserDto, MyPreferencesDto } from './dto/myDto';
+import { UsersService } from '../users/users.service';
+import { User, Preferences } from '../users/user.entity';
 
 @Controller('my')
 export class MyController {
@@ -17,25 +12,20 @@ export class MyController {
     private readonly userService: UsersService,
     @InjectMapper('classMapper') private mapper: Mapper,
   ) {
-    this.mapper.createMap(User, CreateUserReqDto);
-    this.mapper.createMap(CreateUserReqDto, User);
-    this.mapper.createMap(User, CreateUserResDto);
-    this.mapper.createMap(Preferences, UserPreferencesResDto);
+    this.mapper.createMap(User, MyUserDto);
+    this.mapper.createMap(Preferences, MyPreferencesDto);
   }
 
   @Get('user')
   @UseGuards(JwtAuthGuard)
-  async getMe(
-    @Param('username') username: string,
-    @Req() req: any,
-  ): Promise<CreateUserResDto> {
+  async myUser(@Req() req: any): Promise<MyUserDto> {
     const user = await this.userService.findById(req.user.id);
-    return this.mapper.map(user, CreateUserResDto, User);
+    return this.mapper.map(user, MyUserDto, User);
   }
 
   @Get('preferences')
   @UseGuards(JwtAuthGuard)
-  async getPreferences(@Req() req: any): Promise<UserPreferencesResDto> {
+  async myPreferences(@Req() req: any): Promise<MyPreferencesDto> {
     const user = await this.userService.findById(req.user.id);
     return this.mapper.map(
       {
@@ -45,7 +35,7 @@ export class MyController {
         currencyCode: user.getCurrencyCode(),
         currencySign: user.getCurrencySign(),
       } as Preferences,
-      UserPreferencesResDto,
+      MyPreferencesDto,
       Preferences,
     );
   }
