@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import { User, Preferences } from './user.entity';
 
 @Injectable()
 export class UsersService {
@@ -15,11 +15,16 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  findOne(id: string): Promise<User> {
+  findById(id: number): Promise<User> {
     return this.usersRepository.findOne(id);
   }
 
   create(user: User): Promise<User> {
     return this.usersRepository.save(user);
+  }
+
+  async getUserPreferences(id: number): Promise<Preferences> {
+    const user = await this.findById(id);
+    return user.preferences;
   }
 }

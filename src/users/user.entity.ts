@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column } from 'typeorm';
 import { AutoMap } from '@automapper/classes';
 import { BaseEntity } from '../database/baseEntity.entiry';
 
@@ -6,14 +6,16 @@ const DEFAULT_VALUES = {
   locale: 'en',
   avatarUrl: 'default image url',
   timezone: 'america/toronto',
+  theme: 'royal-black',
 };
 
-export interface Preferences {
-  locale: string;
-  timezone: string;
+export class Preferences {
+  @AutoMap() locale: string;
+  @AutoMap() timezone: string;
+  @AutoMap() theme: string;
 }
 
-@Entity()
+@Entity('users')
 export class User extends BaseEntity {
   @AutoMap()
   @Column({ length: 100 })
@@ -46,5 +48,9 @@ export class User extends BaseEntity {
 
   getLocale(): string {
     return this.preferences?.locale || DEFAULT_VALUES.locale;
+  }
+
+  getTheme(): string {
+    return this.preferences?.theme || DEFAULT_VALUES.theme;
   }
 }
