@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import { Auth } from './auth.entity';
-import { JWTPayloadDto } from './jwtPayloadDto';
+import { JWTPayloadDto } from './dto/jwtPayloadDto';
 import { Mapper } from '@automapper/types';
 import { UsersService } from '../users/users.service';
 import { User, Preferences } from '../users/user.entity';
@@ -44,7 +44,7 @@ export class AuthService {
   async login(jwtPayload: JWTPayloadDto) {
     return {
       access_token: this.jwtService.sign(jwtPayload),
-      refresh_token: this.jwtService.sign(jwtPayload), //TODO: refresh token
+      refresh_token: 'vika shangolika', //TODO: refresh token
     };
   }
 }

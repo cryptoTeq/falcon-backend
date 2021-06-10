@@ -25,10 +25,7 @@ export class MyController {
 
   @Get('user')
   @UseGuards(JwtAuthGuard)
-  async getMe(
-    @Param('username') username: string,
-    @Req() req: any,
-  ): Promise<CreateUserResDto> {
+  async getMe(@Req() req: any): Promise<CreateUserResDto> {
     const user = await this.userService.findById(req.user.id);
     return this.mapper.map(user, CreateUserResDto, User);
   }
