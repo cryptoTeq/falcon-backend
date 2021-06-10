@@ -1,21 +1,16 @@
-import { InjectMapper, MapPipe } from '@automapper/nestjs';
+import { InjectMapper } from '@automapper/nestjs';
 import { ConfigService } from '@nestjs/config';
 import { Mapper } from '@automapper/types';
 
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Put,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Put } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
-import { CreateUserResDto, CreateUserReqDto } from './dto/createUserDto';
-import { User } from './user.entity';
+import {
+  CreateUserResDto,
+  CreateUserReqDto,
+  UserPreferencesResDto,
+} from './dto/createUserDto';
+import { Preferences, User } from './user.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -28,23 +23,13 @@ export class UsersController {
     this.mapper.createMap(User, CreateUserReqDto);
     this.mapper.createMap(CreateUserReqDto, User);
     this.mapper.createMap(User, CreateUserResDto);
+    this.mapper.createMap(Preferences, UserPreferencesResDto);
   }
 
   @Get()
   findAll() {
+    console.log(`config`, this.configService.get<string>('sampleConfig'));
     return { ok: true };
-  }
-
-  @Get(':username')
-  @UseGuards(JwtAuthGuard)
-  async findOne(
-    @Param('username') username: string,
-    @Req() req: any,
-  ): Promise<CreateUserResDto> {
-    console.log(`req.user;`, req.user);
-    // console.log(`config`, this.configService.get<string>('sampleConfig'));
-    const user = await this.userService.findById(2);
-    return this.mapper.map(user, CreateUserResDto, User);
   }
 
   @Post()
@@ -61,7 +46,6 @@ export class UsersController {
   @Put()
   update(@Body() userDto: CreateUserReqDto): string {
     const user = this.mapper.map(userDto, User, CreateUserReqDto);
-    console.log(`user`, user, user instanceof User);
     return 'createUser';
   }
 }

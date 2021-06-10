@@ -1,4 +1,4 @@
 export const jwtConstants = {
   secret: 's',
-  expiresIn: '6m',
+  expiresIn: '60m', //TODO: token expiratio
 };

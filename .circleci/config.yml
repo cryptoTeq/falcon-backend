@@ -31,6 +31,9 @@ jobs:
           name: Installing Dependencies
           command: npm i
       - run:
+          name: Generating Code Coverage Reports
+          command: npm run test:badges
+      - run:
           name: Building
           command: npm run build
       - run:

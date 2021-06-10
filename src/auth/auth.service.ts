@@ -20,7 +20,6 @@ export class AuthService {
   ) {
     this.mapper.createMap(Auth, JWTPayloadDto);
     this.mapper.createMap(Preferences, JWTPayloadDto);
-    this.mapper.createMap(User, JWTPayloadDto);
   }
 
   async findByUsername(username: string): Promise<Auth> {
@@ -34,16 +33,10 @@ export class AuthService {
     if (authData && authData.password === pass) {
       const user = await this.usersService.findById(authData.userId);
       const { username } = this.mapper.map(authData, JWTPayloadDto, Auth);
-      const { firstName } = this.mapper.map(user, JWTPayloadDto, User);
-      const { locale } = this.mapper.map(
-        user.preferences,
-        JWTPayloadDto,
-        Preferences,
-      );
       return {
         username,
-        firstName,
-        locale,
+        theme: user.getTheme(),
+        locale: user.getLocale(),
       } as JWTPayloadDto;
     }
   }

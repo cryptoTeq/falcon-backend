@@ -18,4 +18,14 @@ export class UserBaseDto {
 class CreateUserBaseDto extends UserBaseDto {}
 export class CreateUserReqDto extends CreateUserBaseDto {}
 export class CreateUserResDto extends CreateUserBaseDto {}
-export class UserPreferencesResDto {}
+export class UserPreferencesResDto {
+  @AutoMap()
+  locale: string;
+
+  @AutoMap()
+  theme: string;
+
+  @AutoMap()
+  @IsString()
+  timezone: string;
+}

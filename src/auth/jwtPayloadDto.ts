@@ -1,11 +1,7 @@
 import { AutoMap } from '@automapper/classes';
-import { IsString, IsBoolean } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class JWTPayloadDto {
-  @AutoMap()
-  @IsString()
-  firstName: string;
-
   @AutoMap()
   @IsString()
   username: string;
@@ -13,4 +9,8 @@ export class JWTPayloadDto {
   @AutoMap()
   @IsString()
   locale: string;
+
+  @AutoMap()
+  @IsString()
+  theme: string;
 }
