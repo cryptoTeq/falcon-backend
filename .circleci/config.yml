@@ -13,10 +13,11 @@ jobs:
           command: npm i
       - run:
           name: Running Tests
-          command: npm t
+          command: npm run test
+          # command: npm run test:cov
+          # command: npm run test:badges
   build_deploy_to_staging:
     docker:
-      # - image: cimg/node:14.10.1
       - image: google/cloud-sdk:slim
         auth:
           username: hypbox
@@ -30,9 +31,6 @@ jobs:
       - run:
           name: Installing Dependencies
           command: npm i
-      - run:
-          name: Generating Code Coverage Reports
-          command: npm run test:badges
       - run:
           name: Building
           command: npm run build
