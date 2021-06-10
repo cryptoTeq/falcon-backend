@@ -1,18 +1,7 @@
 import { InjectMapper } from '@automapper/nestjs';
-import { ConfigService } from '@nestjs/config';
 import { Mapper } from '@automapper/types';
-
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Put,
-  Req,
-  UseGuards,
-} from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
 
 import {
   CreateUserResDto,

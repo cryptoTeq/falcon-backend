@@ -12,6 +12,8 @@ const getUser = (): User => {
   let getLocale = jest.fn();
   let getTheme = jest.fn();
   let getTimezone = jest.fn();
+  let getCurrencyCode = jest.fn();
+  let getCurrencySign = jest.fn();
 
   const user: User = {
     firstName: 'FIRSTNAME',
@@ -20,13 +22,21 @@ const getUser = (): User => {
     created_at: new Date(1623295236),
     id: 1,
     kyc: true,
-    preferences: { locale: 'LOCALE', theme: 'THEME', timezone: 'TIMEZONE' },
+    preferences: {
+      locale: 'LOCALE',
+      theme: 'THEME',
+      timezone: 'TIMEZONE',
+      currencyCode: 'CODE',
+      currencySign: 'SIGN',
+    },
     status: 'STATUS',
     updated_at: new Date(1623295236),
     getAvatarUrl,
     getLocale,
     getTheme,
     getTimezone,
+    getCurrencyCode,
+    getCurrencySign,
   };
   return user;
 };
