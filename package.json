@@ -44,7 +44,6 @@
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "dotenv": "^10.0.0",
-    "husky": "^6.0.0",
     "jest-coverage-badges": "^1.1.2",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
@@ -81,11 +80,6 @@
     "ts-node": "^9.1.1",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.2.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint && npm run test"
-    }
   },
   "jest": {
     "moduleFileExtensions": [

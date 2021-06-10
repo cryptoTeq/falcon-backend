@@ -42,6 +42,8 @@ export class MyController {
         locale: user.getLocale(),
         theme: user.getTheme(),
         timezone: user.getTimezone(),
+        currencyCode: user.getCurrencyCode(),
+        currencySign: user.getCurrencySign(),
       } as Preferences,
       UserPreferencesResDto,
       Preferences,
