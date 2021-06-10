@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  codecov: codecov/codecov@1.0.2
 jobs:
   test:
     docker:
@@ -17,9 +15,6 @@ jobs:
           name: Running Tests
           command: npm run test:cov
           # command: npm run test:badges
-      - codecov/upload:
-          file: ./coverage
-
   build_deploy_to_staging:
     docker:
       - image: google/cloud-sdk:slim
