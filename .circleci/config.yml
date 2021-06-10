@@ -13,7 +13,8 @@ jobs:
           command: npm i
       - run:
           name: Running Tests
-          command: npm run test:cov
+          command: npm run test
+          # command: npm run test:cov
           # command: npm run test:badges
   build_deploy_to_staging:
     docker:
