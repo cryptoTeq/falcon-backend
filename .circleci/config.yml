@@ -17,8 +17,6 @@ jobs:
           name: Running Tests
           command: npm run test:cov
           # command: npm run test:badges
-  build:
-    steps:
       - codecov/upload:
           file: ./coverage
 
