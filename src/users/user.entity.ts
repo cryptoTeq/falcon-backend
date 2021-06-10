@@ -63,6 +63,7 @@ export class User extends BaseEntity {
   }
 
   getCurrencySign(): string {
+    console.log('object');
     return this.preferences?.currencySign || DEFAULT_VALUES.currencySign;
   }
 }
