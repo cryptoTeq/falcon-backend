@@ -7,12 +7,16 @@ const DEFAULT_VALUES = {
   avatarUrl: 'default image url',
   timezone: 'america/toronto',
   theme: 'royal-black',
+  currencyCode: 'USD',
+  currencySign: '$',
 };
 
 export class Preferences {
   @AutoMap() locale: string;
   @AutoMap() timezone: string;
   @AutoMap() theme: string;
+  @AutoMap() currencyCode: string;
+  @AutoMap() currencySign: string;
 }
 
 @Entity('users')
@@ -52,5 +56,13 @@ export class User extends BaseEntity {
 
   getTheme(): string {
     return this.preferences?.theme || DEFAULT_VALUES.theme;
+  }
+
+  getCurrencyCode(): string {
+    return this.preferences?.currencyCode || DEFAULT_VALUES.currencyCode;
+  }
+
+  getCurrencySign(): string {
+    return this.preferences?.currencySign || DEFAULT_VALUES.currencySign;
   }
 }

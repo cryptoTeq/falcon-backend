@@ -28,4 +28,12 @@ export class UserPreferencesResDto {
   @AutoMap()
   @IsString()
   timezone: string;
+
+  @AutoMap()
+  @IsString()
+  currencyCode: string;
+
+  @AutoMap()
+  @IsString()
+  currencySign: string;
 }
