@@ -13,8 +13,16 @@ export default class CreateAuthUsers implements Seeder {
         {
           refreshTokenExpires: '',
           status: 'ACTIVE',
-          username: 'aMir',
+          username: 'amir.zad',
           userId: 1,
+          refreshToken: 'refreshToken',
+          password: '1234',
+        },
+        {
+          refreshTokenExpires: '',
+          status: 'ACTIVE',
+          username: 'amir.hadi',
+          userId: 2,
           refreshToken: 'refreshToken',
           password: '1234',
         },

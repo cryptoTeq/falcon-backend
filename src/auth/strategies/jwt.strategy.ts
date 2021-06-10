@@ -1,11 +1,17 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { jwtConstants } from '../constants';
+import { UsersService } from '../..//users/users.service';
 
+import { JWTPayloadDto } from '../jwtPayloadDto';
+import { AuthService } from '../auth.service';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly authService: AuthService,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -13,7 +19,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any) {
-    return { userId: payload.sub, username: payload.username };
+  async validate({ username }: JWTPayloadDto) {
+    const authUser = await this.authService.findByUsername(username);
+    if (!authUser) throw new HttpException('', HttpStatus.NOT_FOUND);
+    const user = await this.usersService.findById(authUser.id);
+    if (!user) throw new HttpException('', HttpStatus.NOT_FOUND);
+    return user;
   }
 }

@@ -1,3 +1,5 @@
+[![contractika](https://circleci.com/gh/cryptoTeq/falcon-backend.svg?style=svg)](https://app.circleci.com/pipelines/github/cryptoTeq/falcon-backend)
+
 ## Installation
 
 ```bash
