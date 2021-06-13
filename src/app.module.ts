@@ -9,6 +9,7 @@ import { classes } from '@automapper/classes';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { MyModule } from './my/my.module';
+import { WalletsModule } from './wallets/wallets.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -27,6 +28,7 @@ import configuration from './config/configuration';
     UsersModule,
     AuthModule,
     MyModule,
+    WalletsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

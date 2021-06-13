@@ -16,7 +16,7 @@ jobs:
           command: npm run test
           # command: npm run test:cov
           # command: npm run test:badges
-  build_deploy_to_staging:
+  deploy_on_app_engine:
     docker:
       - image: google/cloud-sdk:slim
         auth:
@@ -48,10 +48,10 @@ workflows:
   build_test_workflow:
     jobs:
       - test
-      - build_deploy_to_staging:
+      - deploy_on_app_engine:
           filters:
             branches:
               only:
-                - main
+                - main-change-this-later
           requires:
             - test

@@ -40,6 +40,10 @@ export class User extends BaseEntity {
 
   @Column({ nullable: true })
   @AutoMap()
+  defaultWalletId: number;
+
+  @Column({ nullable: true })
+  @AutoMap()
   avatarUrl: string;
 
   getAvatarUrl(): string {
