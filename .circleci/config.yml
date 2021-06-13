@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  heroku: circleci/heroku@0.0.10
 jobs:
   test:
     docker:
@@ -16,7 +18,7 @@ jobs:
           command: npm run test
           # command: npm run test:cov
           # command: npm run test:badges
-  deploy_on_app_engine:
+  app_engine_deploy:
     docker:
       - image: google/cloud-sdk:slim
         auth:
@@ -48,7 +50,7 @@ workflows:
   build_test_workflow:
     jobs:
       - test
-      - deploy_on_app_engine:
+      - app_engine_deploy:
           filters:
             branches:
               only:
