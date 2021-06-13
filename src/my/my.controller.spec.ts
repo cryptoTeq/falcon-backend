@@ -22,6 +22,7 @@ const getUser = (): User => {
     created_at: new Date(1623295236),
     id: 1,
     kyc: true,
+    defaultWalletId: 1,
     preferences: {
       locale: 'LOCALE',
       theme: 'THEME',
