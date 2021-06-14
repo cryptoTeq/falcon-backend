@@ -59,7 +59,7 @@ export class MyController {
   @Get('assets/:symbol/transactions')
   @UseGuards(JwtAuthGuard)
   async myAssetTransactions(
-    @Param('symbol details for ') symbol: string,
+    @Param('symbol') symbol: string,
     @Req() req: any,
   ): Promise<MyAssetDto[]> {
     console.log(`symbol transactions for `, symbol);
