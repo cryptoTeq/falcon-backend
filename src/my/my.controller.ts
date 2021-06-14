@@ -1,8 +1,8 @@
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/types';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { MyUserDto, MyPreferencesDto } from './dto/myDto';
+import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
+import { MyUserDto, MyPreferencesDto, MyAssetDto } from './myDto';
 import { UsersService } from '../users/users.service';
 import { User, Preferences } from '../users/user.entity';
 
@@ -38,5 +38,31 @@ export class MyController {
       MyPreferencesDto,
       Preferences,
     );
+  }
+
+  @Get('assets')
+  @UseGuards(JwtAuthGuard)
+  async myAssets(@Req() req: any): Promise<MyAssetDto[]> {
+    return [];
+  }
+
+  @Get('assets/:symbol')
+  @UseGuards(JwtAuthGuard)
+  async myAssetDetails(
+    @Param('symbol') symbol: string,
+    @Req() req: any,
+  ): Promise<MyAssetDto[]> {
+    console.log(`symbol`, symbol);
+    return [];
+  }
+
+  @Get('assets/:symbol/transactions')
+  @UseGuards(JwtAuthGuard)
+  async myAssetTransactions(
+    @Param('symbol details for ') symbol: string,
+    @Req() req: any,
+  ): Promise<MyAssetDto[]> {
+    console.log(`symbol transactions for `, symbol);
+    return [];
   }
 }
