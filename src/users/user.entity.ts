@@ -1,12 +1,12 @@
 import { Entity, Column } from 'typeorm';
 import { AutoMap } from '@automapper/classes';
-import { BaseEntity } from '../database/baseEntity.entiry';
+import { BaseEntity } from '../database/baseEntity';
 
 const DEFAULT_VALUES = {
   locale: 'en',
-  avatarUrl: 'default image url',
+  avatarUrl: '79ba1876-cc65-11eb-b8bc-0242ac130003.png',
   timezone: 'america/toronto',
-  theme: 'royal-black',
+  theme: 'royal_black',
   currencyCode: 'USD',
   currencySign: '$',
 };
