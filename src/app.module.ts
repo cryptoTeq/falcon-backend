@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { MyModule } from './my/my.module';
 import { WalletsModule } from './wallets/wallets.module';
+import { AssetsModule } from './assets/assets.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -29,6 +30,7 @@ import configuration from './config/configuration';
     AuthModule,
     MyModule,
     WalletsModule,
+    AssetsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
