@@ -2,13 +2,7 @@ import { Entity, Column } from 'typeorm';
 import { AutoMap } from '@automapper/classes';
 import { BaseEntity } from '../../database/baseEntity';
 
-enum TransactionType {
-  UNKNOWN = 'UNKNOWN',
-  INTERNAL = 'INTERNAL',
-  EXTERNAL = 'EXTERNAL',
-}
-
-enum TransactionStatus {
+export enum TransactionStatus {
   PENDING = 'PENDING',
   FAILED = 'FAILED',
   COMPLETED = 'COMPLETED',
@@ -30,6 +24,18 @@ export class WalletTransaction extends BaseEntity {
   size: string;
 
   @AutoMap()
+  @Column({ default: '0.0' })
+  valueUsd: string;
+
+  @AutoMap()
+  @Column({ default: 0.0 })
+  txFeeUsd: number;
+
+  @AutoMap()
+  @Column({ default: '0.0000' })
+  txFee: string;
+
+  @AutoMap()
   @Column()
   fromWalletAddress: string;
 
@@ -37,21 +43,25 @@ export class WalletTransaction extends BaseEntity {
   @Column()
   toWalletAddress: string;
 
-  @AutoMap()
-  @Column({ default: '0.0' })
-  valueUsd: string;
-
   @Column('json', { default: {} })
   @AutoMap()
   extras: any;
 
-  @Column({
-    type: 'enum',
-    enum: TransactionType,
-    default: TransactionType.UNKNOWN,
-  })
   @AutoMap()
-  type: TransactionType;
+  @Column({ default: '0.0' })
+  privateNote: string;
+
+  @Column()
+  @AutoMap()
+  internal: boolean;
+
+  @Column()
+  @AutoMap()
+  incoming: boolean;
+
+  @Column({ nullable: true })
+  @AutoMap()
+  hash: string;
 
   @Column({
     type: 'enum',
