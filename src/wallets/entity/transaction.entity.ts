@@ -24,12 +24,12 @@ export class WalletTransaction extends BaseEntity {
   size: string;
 
   @AutoMap()
-  @Column({ default: '0.0' })
+  @Column()
   valueUsd: string;
 
   @AutoMap()
-  @Column({ default: 0.0 })
-  txFeeUsd: number;
+  @Column({ default: '0.0' })
+  txFeeUsd: string;
 
   @AutoMap()
   @Column({ default: '0.0000' })
@@ -71,11 +71,7 @@ export class WalletTransaction extends BaseEntity {
   @AutoMap()
   status: TransactionStatus;
 
-  @Column()
+  @Column('timestamp')
   @AutoMap()
-  createdUtcInt: number; //TODO: if I can covert to user's timezone from/to this
-
-  @Column()
-  @AutoMap()
-  confirmedUtcInt: number;
+  confirmedAt: Date;
 }

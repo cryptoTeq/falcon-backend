@@ -25,7 +25,7 @@ export class TransactionsService {
         { fromWalletAddress: walletAddress, status, symbol },
         { toWalletAddress: walletAddress, status, symbol },
       ],
-      order: { createdUtcInt: 'DESC' },
+      order: { createdAt: 'DESC' },
     });
   }
 }

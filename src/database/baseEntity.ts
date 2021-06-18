@@ -17,11 +17,17 @@ export class BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @CreateDateColumn()
-  created_at: Date;
+  @CreateDateColumn({
+    type: 'timestamp without time zone',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  createdAt: Date;
 
-  @UpdateDateColumn()
-  updated_at: Date;
+  @CreateDateColumn({
+    type: 'timestamp without time zone',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  updatedAt: Date;
 
   @AutoMap()
   @Column({ nullable: true })
