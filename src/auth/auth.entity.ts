@@ -1,10 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { AutoMap } from '@automapper/classes';
+import { BaseEntity } from '../database/baseEntity';
 
 @Entity()
-export class Auth {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class Auth extends BaseEntity {
 
   @AutoMap()
   @Column({ length: 100 })
@@ -25,7 +24,4 @@ export class Auth {
   @AutoMap()
   refreshTokenExpires: string;
 
-  @Column({ default: 'ACTIVE' })
-  @AutoMap()
-  status: string; //TODO: Enum => active, inactive, ...
-}
+ }

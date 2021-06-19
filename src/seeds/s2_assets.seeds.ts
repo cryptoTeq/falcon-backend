@@ -1,6 +1,6 @@
 import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
-import { Asset } from 'src/assets/asset.entity';
+import { Asset } from '../assets/asset.entity';
 
 export default class CreateAssets implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {

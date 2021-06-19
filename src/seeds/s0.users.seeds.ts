@@ -14,16 +14,26 @@ export default class CreateUsers implements Seeder {
           firstName: 'Amir Mohsen',
           kyc: false,
           lastName: 'Hossein Zadeh',
+          defaultWalletId: 1,
           avatarUrl: '79ba1628-cc65-11eb-b8bc-0242ac130003.jpg',
           preferences: {
-            locale: 'fr',
             timezone: 'america/toronto',
+          },
+        },
+        {
+          firstName: 'Amir Ahmad',
+          kyc: true,
+          defaultWalletId: 3,
+          lastName: 'Hosseinzadeh',
+          preferences: {
+            locale: 'de',
+            timezone: 'europe/germany',
           },
         },
         {
           firstName: 'Amir Hadi',
           kyc: true,
-          lastName: 'Hosseinzadeh',
+          lastName: 'Hossein-zadeh',
         },
       ])
       .execute();

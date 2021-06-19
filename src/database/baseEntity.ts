@@ -17,11 +17,11 @@ export class BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @CreateDateColumn()
-  created_at: Date;
+  @CreateDateColumn({})
+  createdAt: Date;
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updatedAt: Date;
 
   @AutoMap()
   @Column({ nullable: true })
