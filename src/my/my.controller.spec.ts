@@ -6,6 +6,8 @@ import { User } from '../users/user.entity';
 import { createMapper } from '@automapper/core';
 import { classes } from '@automapper/classes';
 import { UserBaseDto } from '../users/dto/userDto';
+import { WalletsService } from '../wallets/wallets.service';
+import { AssetsService } from '../assets/assets.service';
 
 const getUser = (): User => {
   let getAvatarUrl = jest.fn();
@@ -19,7 +21,7 @@ const getUser = (): User => {
     firstName: 'FIRSTNAME',
     lastName: 'LASTNAME',
     avatarUrl: 'AVATARURL',
-    created_at: new Date(1623295236),
+    createdAt: new Date(1623295236),
     id: 1,
     kyc: true,
     defaultWalletId: 1,
@@ -31,7 +33,7 @@ const getUser = (): User => {
       currencySign: 'SIGN',
     },
     status: 'STATUS',
-    updated_at: new Date(1623295236),
+    updatedAt: new Date(1623295236),
     getAvatarUrl,
     getLocale,
     getTheme,
@@ -51,13 +53,21 @@ const getCreateUserResDto = ({
 describe('My Controller', () => {
   let myController: MyController;
   let usersService: UsersService;
+  let walletsService: WalletsService;
+  let assetsService: AssetsService;
+
   let usersRepository: Repository<User>;
   let mapper: Mapper;
 
   beforeEach(() => {
     mapper = createMapper({ name: 'classMapper', pluginInitializer: classes });
     usersService = new UsersService(usersRepository);
-    myController = new MyController(usersService, mapper);
+    myController = new MyController(
+      usersService,
+      assetsService,
+      walletsService,
+      mapper,
+    );
   });
 
   it('should return hello', async () => {
