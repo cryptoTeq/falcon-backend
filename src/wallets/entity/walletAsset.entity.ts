@@ -3,7 +3,7 @@ import { AutoMap } from '@automapper/classes';
 import { BaseEntity } from '../../database/baseEntity';
 
 @Entity('wallet_assets')
-export class MyAsset extends BaseEntity {
+export class WalletAsset extends BaseEntity {
   constructor() {
     super();
     this.status = 'ACTIVE';
