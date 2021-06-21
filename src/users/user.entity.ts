@@ -22,12 +22,12 @@ export class Preferences {
 @Entity('users')
 export class User extends BaseEntity {
   @AutoMap()
-  @Column({ length: 100 })
+  @Column({ length: 100, name: 'first_name' })
   firstName: string;
 
   @Column()
   @AutoMap()
-  @Column({ length: 100 })
+  @Column({ length: 100, name: 'last_name' })
   lastName: string;
 
   @Column({ default: false })
@@ -38,11 +38,11 @@ export class User extends BaseEntity {
   @AutoMap()
   preferences: Preferences;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'default_wallet_id' })
   @AutoMap()
   defaultWalletId: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'avatar_url' })
   @AutoMap()
   avatarUrl: string;
 

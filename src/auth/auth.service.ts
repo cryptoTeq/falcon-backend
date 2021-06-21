@@ -23,7 +23,7 @@ export class AuthService {
   }
 
   async findByUsername(username: string): Promise<Auth> {
-    const authUser = await this.authRepository.findOne({ username });
+    const authUser = await this.authRepository.findOne({ where: { username } });
     if (!authUser) throw new HttpException('', HttpStatus.NOT_FOUND);
     return authUser;
   }

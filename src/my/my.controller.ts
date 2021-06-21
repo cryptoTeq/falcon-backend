@@ -1,12 +1,30 @@
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/types';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
-import { MyUserDto, MyPreferencesDto, MyAssetDto } from './myDto';
+import {
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
+import {
+  MyUserDto,
+  MyPreferencesDto,
+  MyAssetDto,
+  MyTransactionDto,
+} from './myDto';
 import { UsersService } from '../users/users.service';
 import { User, Preferences } from '../users/user.entity';
 import { WalletsService } from '../wallets/wallets.service';
 import { AssetsService } from '../assets/assets.service';
+import { WalletAsset } from '../wallets/entity/walletAsset.entity';
+import { getAssetAvatar } from '../assets/assets.utils';
+import { TransactionsService } from '../wallets/transactions.service';
+import { WalletTransaction } from '../wallets/entity/walletTransaction.entity';
+import { Asset } from '../assets/asset.entity';
 
 @Controller('my')
 export class MyController {
@@ -14,10 +32,13 @@ export class MyController {
     private readonly userService: UsersService,
     private readonly assetsService: AssetsService,
     private readonly walletsService: WalletsService,
+    private readonly transactionsService: TransactionsService,
     @InjectMapper('classMapper') private mapper: Mapper,
   ) {
     this.mapper.createMap(User, MyUserDto);
     this.mapper.createMap(Preferences, MyPreferencesDto);
+    this.mapper.createMap(WalletAsset, MyAssetDto);
+    this.mapper.createMap(WalletTransaction, MyTransactionDto);
   }
 
   @Get('user')
@@ -44,14 +65,19 @@ export class MyController {
     );
   }
 
+  async assetsFor(user: User): Promise<MyAssetDto[]> {
+    const [myAssets] = await Promise.all([
+      this.walletsService.assetsFor(user.defaultWalletId),
+      // TODO: get market data from marketModule
+    ]);
+    return myAssets.map((m) => this.enrichMyAssetsToDto(m, user));
+  }
+
   @Get('assets')
   @UseGuards(JwtAuthGuard)
   async myAssets(@Req() req: any): Promise<MyAssetDto[]> {
     const user = await this.userService.findById(req.user.id);
-    console.log(`user`, user);
-    // const assets = await this.
-    // const myAssets = await this.assetsService.
-    return [];
+    return this.assetsFor(user);
   }
 
   @Get('assets/:symbol')
@@ -59,9 +85,15 @@ export class MyController {
   async myAssetDetails(
     @Param('symbol') symbol: string,
     @Req() req: any,
-  ): Promise<MyAssetDto[]> {
-    console.log(`symbol`, symbol);
-    return [];
+  ): Promise<MyAssetDto> {
+    const user = await this.userService.findById(req.user.id);
+    const result = (await this.assetsFor(user)).find(
+      (a) => a.symbol === symbol.toUpperCase(),
+    );
+    if (!result)
+      throw new HttpException('Asset Not Found', HttpStatus.NOT_FOUND);
+    // TODO: Encrich with asset details => property info or edu/news contents
+    return result;
   }
 
   @Get('assets/:symbol/transactions')
@@ -69,8 +101,40 @@ export class MyController {
   async myAssetTransactions(
     @Param('symbol') symbol: string,
     @Req() req: any,
-  ): Promise<MyAssetDto[]> {
-    console.log(`symbol transactions for `, symbol);
-    return [];
+  ): Promise<MyTransactionDto[]> {
+    if (!symbol)
+      throw new HttpException('Symbol Not Found', HttpStatus.BAD_REQUEST);
+    const user = await this.userService.findById(req.user.id);
+    const asset = await this.assetsService.findBySymbol(symbol);
+    if (!asset)
+      throw new HttpException('Symbol Not Found', HttpStatus.NOT_FOUND);
+    const transactions = await this.transactionsService.transactionsFor({
+      walletId: user.defaultWalletId,
+      assetId: asset.id,
+    });
+    return transactions.map((tx) => this.enrichMyTransaction(tx, asset));
+  }
+
+  enrichMyTransaction(
+    walletTx: WalletTransaction,
+    asset: Asset,
+  ): MyTransactionDto {
+    const result = this.mapper.map(
+      walletTx,
+      MyTransactionDto,
+      WalletTransaction,
+    );
+    result.symbol = asset.symbol;
+    return result;
+  }
+
+  enrichMyAssetsToDto(myAsset: WalletAsset, user: User): MyAssetDto {
+    const result = this.mapper.map(myAsset, MyAssetDto, WalletAsset);
+    result.value = 'size X assetValue';
+    result.avatar = getAssetAvatar(result.symbol, user.getTheme());
+    result.currencyCode = user.getCurrencyCode();
+    result.currencySign = user.getCurrencySign();
+    result.assetValue = '123456'; // TODO: get from MarketModule>MarketService
+    return result;
   }
 }

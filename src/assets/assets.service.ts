@@ -11,10 +11,16 @@ export class AssetsService {
     private assetsRepository: Repository<Asset>,
   ) {}
 
-  findActives(): Promise<Asset[]> {
+  async findActives(): Promise<Asset[]> {
     return this.assetsRepository.find({
       order: { sortOrder: 'ASC' },
       where: { status: BASE_ENTITY_SATUSES.ACTIVE },
+    });
+  }
+
+  async findBySymbol(symbol: string): Promise<Asset> {
+    return this.assetsRepository.findOne({
+      where: { symbol: symbol.toUpperCase() },
     });
   }
 }

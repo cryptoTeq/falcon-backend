@@ -22,7 +22,7 @@ export class Asset extends BaseEntity {
   @Column({ length: 100 })
   symbol: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'sort_order' })
   @AutoMap()
   sortOrder: number;
 

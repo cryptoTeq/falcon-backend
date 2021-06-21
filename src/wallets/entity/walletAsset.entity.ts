@@ -10,11 +10,11 @@ export class WalletAsset extends BaseEntity {
   }
 
   @AutoMap()
-  @Column()
+  @Column({ name: 'wallet_id' })
   walletId: number;
 
   @AutoMap()
-  @Column()
+  @Column({ name: 'asset_id' })
   assetId: number;
 
   @AutoMap()
@@ -22,14 +22,17 @@ export class WalletAsset extends BaseEntity {
   size: string;
 
   @AutoMap()
-  @Column({ default: '0.0' })
+  @Column({ name: 'average_in_value_usd', default: '0.0' })
   averageInValueUsd: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, name: 'sort_order' })
   @AutoMap()
-  sort_order: number;
+  sortOrder: number;
 
   @Column('json', { default: {} })
   @AutoMap()
   extras: any;
+
+  @AutoMap()
+  symbol: string;
 }
