@@ -14,7 +14,7 @@ import { WalletAsset } from './entity/walletAsset.entity';
     ConfigModule,
   ],
   providers: [WalletsService, TransactionsService],
-  exports: [WalletsService],
+  exports: [WalletsService, TransactionsService],
   controllers: [WalletsController],
 })
 export class WalletsModule {}

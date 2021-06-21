@@ -14,7 +14,7 @@ export class Wallet extends BaseEntity {
   }
 
   @AutoMap()
-  @Column()
+  @Column({ name: 'owner_id' })
   ownerId: number;
 
   @AutoMap()
@@ -25,9 +25,9 @@ export class Wallet extends BaseEntity {
   @Column({ nullable: true })
   name: string;
 
-  @Column({ nullable: true })
+  @Column({ name: 'sort_order', nullable: true })
   @AutoMap()
-  sort_order: number;
+  sortOrder: number;
 
   @Column('json', { default: {} })
   @AutoMap()

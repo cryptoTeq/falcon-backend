@@ -17,4 +17,10 @@ export class AssetsService {
       where: { status: BASE_ENTITY_SATUSES.ACTIVE },
     });
   }
+
+  findBySymbol(symbol: string): Promise<Asset> {
+    return this.assetsRepository.findOne({
+      where: { symbol: symbol.toUpperCase() },
+    });
+  }
 }

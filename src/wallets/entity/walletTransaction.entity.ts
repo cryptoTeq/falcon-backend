@@ -16,7 +16,7 @@ export class WalletTransaction extends BaseEntity {
   }
 
   @AutoMap()
-  @Column()
+  @Column({ name: 'asset_id' })
   assetId: number;
 
   @AutoMap()
@@ -24,40 +24,36 @@ export class WalletTransaction extends BaseEntity {
   size: string;
 
   @AutoMap()
-  @Column()
+  @Column({ name: 'value_usd' })
   valueUsd: string;
 
   @AutoMap()
-  @Column({ default: '0.0' })
+  @Column({ name: 'tx_fee_usd', default: '0.0' })
   txFeeUsd: string;
 
   @AutoMap()
-  @Column({ default: '0.0000' })
+  @Column({ name: 'tx_fee', default: '0.0000' })
   txFee: string;
 
   @AutoMap()
-  @Column()
-  fromWalletAddress: string;
+  @Column({ name: 'from_wallet_id' })
+  fromWalletId: number;
 
   @AutoMap()
-  @Column()
-  toWalletAddress: string;
+  @Column({ name: 'to_wallet_id' })
+  toWalletId: number;
 
   @Column('json', { default: {} })
   @AutoMap()
   extras: any;
 
   @AutoMap()
-  @Column({ default: '0.0' })
+  @Column({ nullable: true, name: 'private_note' })
   privateNote: string;
 
   @Column()
   @AutoMap()
   internal: boolean;
-
-  @Column()
-  @AutoMap()
-  incoming: boolean;
 
   @Column({ nullable: true })
   @AutoMap()
@@ -71,7 +67,11 @@ export class WalletTransaction extends BaseEntity {
   @AutoMap()
   status: TransactionStatus;
 
-  @Column({ type: 'timestamp without time zone', nullable: true })
+  @Column({
+    type: 'timestamp with time zone',
+    nullable: true,
+    name: 'confirmed_at',
+  })
   @AutoMap()
   confirmedAt: Date;
 }

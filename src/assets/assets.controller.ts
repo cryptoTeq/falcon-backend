@@ -7,6 +7,7 @@ import { Asset } from './asset.entity';
 import { AssetDto } from './assetDto';
 import { User } from 'src/users/user.entity';
 import { UsersService } from 'src/users/users.service';
+import { getAssetAvatar } from './assets.utils';
 
 @Controller('assets')
 export class AssetsController {
@@ -28,7 +29,7 @@ export class AssetsController {
 
   enrichMapToDto(asset: Asset, user: User): AssetDto {
     const result = this.mapper.map(asset, AssetDto, Asset);
-    result.avatarUrl = user.getTheme() + '_use_util_function';
+    result.avatarUrl = getAssetAvatar(asset.symbol, user.getTheme());
     return result;
   }
 }
