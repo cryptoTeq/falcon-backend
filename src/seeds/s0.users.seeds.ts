@@ -17,7 +17,7 @@ export default class CreateUsers implements Seeder {
           defaultWalletId: 1,
           avatarUrl: '79ba1628-cc65-11eb-b8bc-0242ac130003.jpg',
           preferences: {
-            timezone: 'america/toronto',
+            timezone: 'America/Toronto',
           },
         },
         {
@@ -27,7 +27,7 @@ export default class CreateUsers implements Seeder {
           lastName: 'Hosseinzadeh',
           preferences: {
             locale: 'de',
-            timezone: 'europe/germany',
+            timezone: 'Europe/Berlin',
           },
         },
         {
