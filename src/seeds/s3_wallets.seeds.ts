@@ -14,19 +14,19 @@ export default class CreateWallets implements Seeder {
           status: 'ACTIVE',
           address: '0xebc8d9cf3a7516bc713066f8d6db3523c3a73ff1',
           ownerId: 1,
-          sort_order: 1,
+          sortOrder: 1,
         },
         {
           status: 'ACTIVE',
           address: '0xebc8d9cf3a7516bc713066f8d6db3523c3a73ff2',
           ownerId: 2,
-          sort_order: 1,
+          sortOrder: 1,
         },
         {
           status: 'ACTIVE',
           address: '0xebc8d9cf3a7516bc713066f8d6db3523c3a73ff3',
           ownerId: 3,
-          sort_order: 1,
+          sortOrder: 1,
         },
       ])
       .execute();

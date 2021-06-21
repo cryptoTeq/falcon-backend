@@ -43,6 +43,7 @@
     "@nestjs/typeorm": "^7.1.5",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
+    "dayjs": "^1.10.5",
     "dotenv": "^10.0.0",
     "jest-coverage-badges": "^1.1.2",
     "passport": "^0.4.1",

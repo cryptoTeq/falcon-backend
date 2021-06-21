@@ -8,6 +8,7 @@ import { classes } from '@automapper/classes';
 import { UserBaseDto } from '../users/dto/userDto';
 import { WalletsService } from '../wallets/wallets.service';
 import { AssetsService } from '../assets/assets.service';
+import { TransactionsService } from '../wallets/transactions.service';
 
 const getUser = (): User => {
   let getAvatarUrl = jest.fn();
@@ -55,6 +56,7 @@ describe('My Controller', () => {
   let usersService: UsersService;
   let walletsService: WalletsService;
   let assetsService: AssetsService;
+  let transactionsService: TransactionsService;
 
   let usersRepository: Repository<User>;
   let mapper: Mapper;
@@ -66,6 +68,7 @@ describe('My Controller', () => {
       usersService,
       assetsService,
       walletsService,
+      transactionsService,
       mapper,
     );
   });
