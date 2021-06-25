@@ -6,6 +6,9 @@ export class MyUserDto extends UserBaseDto {}
 
 export class MyPreferencesDto {
   @AutoMap()
+  firstName: string;
+
+  @AutoMap()
   locale: string;
 
   @AutoMap()
@@ -56,6 +59,15 @@ export class MyAssetDto {
   @AutoMap()
   @IsString()
   currencySign: string;
+}
+
+export class MyWalletDto {
+  @AutoMap()
+  assets: MyAssetDto[];
+
+  @AutoMap()
+  @IsString()
+  totalValue: string;
 }
 
 export class MyTransactionDto {
