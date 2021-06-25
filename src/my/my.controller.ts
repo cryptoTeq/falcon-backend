@@ -15,6 +15,7 @@ import {
   MyPreferencesDto,
   MyAssetDto,
   MyTransactionDto,
+  MyWalletDto,
 } from './myDto';
 import { UsersService } from '../users/users.service';
 import { User, Preferences } from '../users/user.entity';
@@ -65,6 +66,25 @@ export class MyController {
     );
   }
 
+  @Get('brief')
+  @UseGuards(JwtAuthGuard)
+  async myBrief(@Req() req: any): Promise<MyPreferencesDto> {
+    const user = await this.userService.findById(req.user.id);
+    const userDto = this.mapper.map(user, MyUserDto, User);
+    const result = this.mapper.map(
+      {
+        locale: user.getLocale(),
+        theme: user.getTheme(),
+        timezone: user.getTimezone(),
+        currencyCode: user.getCurrencyCode(),
+        currencySign: user.getCurrencySign(),
+      } as Preferences,
+      MyPreferencesDto,
+      Preferences,
+    );
+    return { ...result, ...userDto };
+  }
+
   async assetsFor(user: User): Promise<MyAssetDto[]> {
     const [myAssets] = await Promise.all([
       this.walletsService.assetsFor(user.defaultWalletId),
@@ -73,11 +93,14 @@ export class MyController {
     return myAssets.map((m) => this.enrichMyAssetsToDto(m, user));
   }
 
-  @Get('assets')
+  @Get('wallet')
   @UseGuards(JwtAuthGuard)
-  async myAssets(@Req() req: any): Promise<MyAssetDto[]> {
+  async myAssets(@Req() req: any): Promise<MyWalletDto> {
     const user = await this.userService.findById(req.user.id);
-    return this.assetsFor(user);
+    return {
+      assets: await this.assetsFor(user),
+      totalValue: '1000',
+    } as MyWalletDto;
   }
 
   @Get('assets/:symbol')
