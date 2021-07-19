@@ -36,7 +36,6 @@ export class MyAssetDto {
   @IsString()
   name: string;
 
-  @AutoMap()
   @IsString()
   avatar: string;
 
@@ -44,19 +43,15 @@ export class MyAssetDto {
   @IsString()
   size: string;
 
-  @AutoMap()
   @IsString()
   value: string;
 
-  @AutoMap()
   @IsString()
   assetValue: string;
 
-  @AutoMap()
   @IsString()
   currencyCode: string;
 
-  @AutoMap()
   @IsString()
   currencySign: string;
 }
@@ -68,6 +63,14 @@ export class MyWalletDto {
   @AutoMap()
   @IsString()
   totalValue: string;
+
+  @AutoMap()
+  @IsString()
+  currencyCode: string;
+
+  @AutoMap()
+  @IsString()
+  currencySign: string;
 }
 
 export class MyTransactionDto {
@@ -75,7 +78,6 @@ export class MyTransactionDto {
   @IsString()
   status: string;
 
-  @AutoMap()
   @IsString()
   symbol: string;
 
@@ -97,7 +99,7 @@ export class MyTransactionDto {
 
   @AutoMap()
   @IsString()
-  privateNote: string;
+  senderNote: string;
 
   @AutoMap()
   @IsString()
@@ -110,6 +112,10 @@ export class MyTransactionDto {
   @AutoMap()
   @IsBoolean()
   internal: boolean;
+
+  @AutoMap()
+  @IsBoolean()
+  incoming: boolean;
 
   @IsString()
   from: string;

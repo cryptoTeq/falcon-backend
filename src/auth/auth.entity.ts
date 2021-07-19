@@ -12,8 +12,13 @@ export class Auth extends BaseEntity {
   @Column({ name: 'user_id' })
   userId: number;
 
-  @Column({ type: 'varchar', length: 100, nullable: false })
-  password: string;
+  @Column({
+    type: 'varchar',
+    length: 100,
+    nullable: false,
+    name: 'password_hash',
+  })
+  passwordHash: string;
 
   @Column({ name: 'refresh_token' })
   @AutoMap()
