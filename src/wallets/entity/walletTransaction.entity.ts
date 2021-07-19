@@ -48,8 +48,8 @@ export class WalletTransaction extends BaseEntity {
   extras: any;
 
   @AutoMap()
-  @Column({ nullable: true, name: 'private_note' })
-  privateNote: string;
+  @Column({ nullable: true, name: 'sender_note' })
+  senderNote: string;
 
   @Column()
   @AutoMap()

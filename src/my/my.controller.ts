@@ -26,6 +26,7 @@ import { getAssetAvatar } from '../assets/assets.utils';
 import { TransactionsService } from '../wallets/transactions.service';
 import { WalletTransaction } from '../wallets/entity/walletTransaction.entity';
 import { Asset } from '../assets/asset.entity';
+import { MarketService } from '../market/market.service';
 
 @Controller('my')
 export class MyController {
@@ -34,6 +35,7 @@ export class MyController {
     private readonly assetsService: AssetsService,
     private readonly walletsService: WalletsService,
     private readonly transactionsService: TransactionsService,
+    private readonly marketService: MarketService,
     @InjectMapper('classMapper') private mapper: Mapper,
   ) {
     this.mapper.createMap(User, MyUserDto);
@@ -85,21 +87,24 @@ export class MyController {
     return { ...result, ...userDto };
   }
 
-  async assetsFor(user: User): Promise<MyAssetDto[]> {
-    const [myAssets] = await Promise.all([
-      this.walletsService.assetsFor(user.defaultWalletId),
-      // TODO: get market data from marketModule
-    ]);
-    return myAssets.map((m) => this.enrichMyAssetsToDto(m, user));
+  async enrichedAssetsFor(user: User): Promise<MyAssetDto[]> {
+    const myAssets = await this.walletsService.assetsFor(user.defaultWalletId);
+    const enrichedAssetsDto = await Promise.all(
+      myAssets.map((a) => this.enrichMyAssetsToDto(a, user)),
+    ).catch((e) => []); //TODO: Will Catch work?
+    return enrichedAssetsDto;
   }
 
   @Get('wallet')
   @UseGuards(JwtAuthGuard)
   async myAssets(@Req() req: any): Promise<MyWalletDto> {
     const user = await this.userService.findById(req.user.id);
+    const enrichedAssets = await this.enrichedAssetsFor(user);
     return {
-      assets: await this.assetsFor(user),
-      totalValue: '1000',
+      assets: enrichedAssets,
+      totalValue: this.walletTotalValue(enrichedAssets).toString(),
+      currencyCode: user.getCurrencyCode(),
+      currencySign: user.getCurrencySign(),
     } as MyWalletDto;
   }
 
@@ -110,7 +115,7 @@ export class MyController {
     @Req() req: any,
   ): Promise<MyAssetDto> {
     const user = await this.userService.findById(req.user.id);
-    const result = (await this.assetsFor(user)).find(
+    const result = (await this.enrichedAssetsFor(user)).find(
       (a) => a.symbol === symbol.toUpperCase(),
     );
     if (!result)
@@ -135,12 +140,14 @@ export class MyController {
       walletId: user.defaultWalletId,
       assetId: asset.id,
     });
-    return transactions.map((tx) => this.enrichMyTransaction(tx, asset));
+    return transactions.map((tx) => this.enrichMyTransaction(tx, asset, user));
   }
 
   enrichMyTransaction(
+    //TODO: Implement Enrich transaction
     walletTx: WalletTransaction,
     asset: Asset,
+    user: User,
   ): MyTransactionDto {
     const result = this.mapper.map(
       walletTx,
@@ -148,16 +155,32 @@ export class MyController {
       WalletTransaction,
     );
     result.symbol = asset.symbol;
+    result.from = 'FROM';
+    result.to = 'TO';
+    // result.incoming
     return result;
   }
 
-  enrichMyAssetsToDto(myAsset: WalletAsset, user: User): MyAssetDto {
+  async enrichMyAssetsToDto(
+    myAsset: WalletAsset,
+    user: User,
+  ): Promise<MyAssetDto> {
     const result = this.mapper.map(myAsset, MyAssetDto, WalletAsset);
-    result.value = 'size X assetValue';
+    const { price: marketPrice } = await this.marketService.marketDataFor(
+      myAsset.symbol,
+    );
+    result.value = (Number(marketPrice) * Number(result.size)).toString();
     result.avatar = getAssetAvatar(result.symbol, user.getTheme());
     result.currencyCode = user.getCurrencyCode();
     result.currencySign = user.getCurrencySign();
-    result.assetValue = '123456'; // TODO: get from MarketModule>MarketService
+    result.assetValue = marketPrice; //TODO: Rename all value to price
     return result;
+  }
+
+  walletTotalValue(myAssets: MyAssetDto[]) {
+    return myAssets.reduce(
+      (totalValue, { assetValue }) => totalValue + Number(assetValue),
+      0,
+    );
   }
 }

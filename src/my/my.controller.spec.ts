@@ -9,6 +9,7 @@ import { UserBaseDto } from '../users/dto/userDto';
 import { WalletsService } from '../wallets/wallets.service';
 import { AssetsService } from '../assets/assets.service';
 import { TransactionsService } from '../wallets/transactions.service';
+import { MarketService } from 'src/market/market.service';
 
 const getUser = (): User => {
   let getAvatarUrl = jest.fn();
@@ -57,6 +58,7 @@ describe('My Controller', () => {
   let walletsService: WalletsService;
   let assetsService: AssetsService;
   let transactionsService: TransactionsService;
+  let marketService: MarketService;
 
   let usersRepository: Repository<User>;
   let mapper: Mapper;
@@ -69,6 +71,7 @@ describe('My Controller', () => {
       assetsService,
       walletsService,
       transactionsService,
+      marketService,
       mapper,
     );
   });

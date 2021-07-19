@@ -33,6 +33,7 @@ export default class CreateUsers implements Seeder {
         {
           firstName: 'Amir Hadi',
           kyc: true,
+          defaultWalletId: 2,
           lastName: 'Hossein-zadeh',
         },
       ])

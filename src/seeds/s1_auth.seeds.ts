@@ -16,7 +16,7 @@ export default class CreateAuthUsers implements Seeder {
           username: 'am@getroyalwallet.com',
           userId: 1,
           refreshToken: 'refreshToken',
-          password: '1234',
+          passwordHash: '1234',
         },
         {
           refreshTokenExpires: '',
@@ -24,7 +24,7 @@ export default class CreateAuthUsers implements Seeder {
           username: 'aa@getroyalwallet.com',
           userId: 2,
           refreshToken: 'refreshToken',
-          password: '1234',
+          passwordHash: '1234',
         },
         {
           refreshTokenExpires: '',
@@ -32,7 +32,7 @@ export default class CreateAuthUsers implements Seeder {
           username: 'ah@getroyalwallet.com',
           userId: 3,
           refreshToken: 'refreshToken',
-          password: '1234',
+          passwordHash: '1234',
         },
       ])
       .execute();
