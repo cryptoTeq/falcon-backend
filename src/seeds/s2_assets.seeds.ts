@@ -1,6 +1,6 @@
 import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
-import { Asset } from '../assets/asset.entity';
+import { Asset, AssetTypes } from '../assets/asset.entity';
 
 export default class CreateAssets implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {
@@ -12,33 +12,45 @@ export default class CreateAssets implements Seeder {
       .values([
         {
           status: 'ACTIVE',
-          symbol: 'TIK',
-          name: 'Tikcoin',
+          type: AssetTypes.FIAT,
+          symbol: 'CAD',
+          name: 'Canadian Dollar',
           sortOrder: 1,
         },
         {
           status: 'ACTIVE',
-          symbol: 'BTC',
-          name: 'Bitcoin',
+          symbol: 'TIK',
+          name: 'Tikcoin',
+          type: AssetTypes.CRYPTO,
           sortOrder: 2,
+        },
+        {
+          status: 'ACTIVE',
+          symbol: 'BTC',
+          type: AssetTypes.CRYPTO,
+          name: 'Bitcoin',
+          sortOrder: 3,
         },
         {
           status: 'ACTIVE',
           symbol: 'ETH',
           name: 'Ethereum',
-          sortOrder: 3,
-        },
-        {
-          status: 'ACTIVE',
-          symbol: 'DOGE',
-          name: 'Dogecoin',
+          type: AssetTypes.CRYPTO,
           sortOrder: 4,
         },
         {
           status: 'ACTIVE',
+          symbol: 'DOGE',
+          type: AssetTypes.CRYPTO,
+          name: 'Dogecoin',
+          sortOrder: 5,
+        },
+        {
+          status: 'ACTIVE',
+          type: AssetTypes.CRYPTO,
           symbol: 'XRP',
           name: 'XRP',
-          sortOrder: 5,
+          sortOrder: 6,
         },
       ])
       .execute();

@@ -7,5 +7,8 @@ export class AssetDto {
   @AutoMap()
   symbol: string;
 
+  @AutoMap()
+  type: string;
+
   avatarUrl: string;
 }

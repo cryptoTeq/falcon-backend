@@ -15,7 +15,7 @@ export class WalletsService {
 
   assetsFor(walletId: number): Promise<WalletAsset[]> {
     const query = `
-    SELECT a.name, a.symbol,
+    SELECT a.name, a.symbol, a.type,
     CASE WHEN wa.size is NULL THEN '0.0' ELSE wa.size END,
     CASE WHEN wa.wallet_id is NULL then 0 ELSE wa.wallet_id END
     FROM (SELECT wa.wallet_id, wa.asset_id, wa.size, wa.average_in_value_usd, w.status as wallet_status 

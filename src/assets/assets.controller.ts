@@ -22,9 +22,9 @@ export class AssetsController {
   @Get()
   @UseGuards(JwtAuthGuard)
   async myUser(@Req() req: any): Promise<AssetDto[]> {
-    const DbAssets = await this.assetsService.findActives();
+    const dbAssets = await this.assetsService.findActives();
     const user = await this.usersService.findById(req.user.id);
-    return DbAssets.map((a) => this.enrichMapToDto(a, user));
+    return dbAssets.map((a) => this.enrichMapToDto(a, user));
   }
 
   enrichMapToDto(asset: Asset, user: User): AssetDto {
