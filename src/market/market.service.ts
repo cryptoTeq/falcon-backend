@@ -12,6 +12,7 @@ export class MarketService {
   async marketData(): Promise<AssetMarketData[]> {
     //TODO: implement marketService
     return [
+      { price: '1.00', symbol: 'CAD' },
       { price: '1.85', symbol: 'TIK' },
       { price: '32000.8558', symbol: 'BTC' },
       { price: '1.85', symbol: 'ETH' },

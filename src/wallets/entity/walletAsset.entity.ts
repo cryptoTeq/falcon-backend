@@ -35,4 +35,7 @@ export class WalletAsset extends BaseEntity {
 
   @AutoMap()
   symbol: string;
+
+  @AutoMap()
+  type: string;
 }

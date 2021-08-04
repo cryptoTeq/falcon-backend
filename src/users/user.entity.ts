@@ -7,7 +7,7 @@ const DEFAULT_VALUES = {
   avatarUrl: '79ba1876-cc65-11eb-b8bc-0242ac130003.png',
   timezone: 'america/toronto',
   theme: 'royal_black',
-  currencyCode: 'USD',
+  currencyCode: 'CAD',
   currencySign: '$',
 };
 

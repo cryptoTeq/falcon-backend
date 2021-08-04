@@ -36,6 +36,10 @@ export class MyAssetDto {
   @IsString()
   name: string;
 
+  @AutoMap()
+  @IsString()
+  type: string;
+
   @IsString()
   avatar: string;
 

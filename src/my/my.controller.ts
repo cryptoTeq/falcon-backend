@@ -179,7 +179,7 @@ export class MyController {
 
   walletTotalValue(myAssets: MyAssetDto[]) {
     return myAssets.reduce(
-      (totalValue, { assetValue }) => totalValue + Number(assetValue),
+      (totalValue, { value }) => totalValue + Number(value),
       0,
     );
   }
