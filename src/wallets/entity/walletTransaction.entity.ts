@@ -68,6 +68,7 @@ export class WalletTransaction extends BaseEntity {
   status: TransactionStatus;
 
   @Column({
+    // TODO: validate it
     type: 'timestamp with time zone',
     nullable: true,
     name: 'confirmed_at',

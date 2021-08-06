@@ -1,12 +1,12 @@
 import { Entity, Column } from 'typeorm';
 import { AutoMap } from '@automapper/classes';
-import { BaseEntity } from '../../database/baseEntity';
+import { BaseEntity, BASE_ENTITY_SATUSES } from '../../database/baseEntity';
 
 @Entity('wallet_assets')
 export class WalletAsset extends BaseEntity {
   constructor() {
     super();
-    this.status = 'ACTIVE';
+    this.status = BASE_ENTITY_SATUSES.ACTIVE;
   }
 
   @AutoMap()
@@ -32,9 +32,6 @@ export class WalletAsset extends BaseEntity {
   @Column('json', { default: {} })
   @AutoMap()
   extras: any;
-
-  @AutoMap()
-  symbol: string;
 
   @AutoMap()
   type: string;

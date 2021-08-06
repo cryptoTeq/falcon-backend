@@ -3,6 +3,7 @@ import { AutoMap } from '@automapper/classes';
 import { BaseEntity, BASE_ENTITY_SATUSES } from '../database/baseEntity';
 
 const ASSET_DEFAULT_VALUES = {
+  //TODO: Why not used
   avatarUrl: 'THEME_ASSETSYMBOL.png',
   avatarUrlExample: 'royal_black_tik.png',
 };

@@ -1,3 +1,7 @@
+export const CONFIG = {
+  CARD_QRCODE_SECRET: 'CARD_QRCODE_SECRET',
+};
+
 export default () => ({
-  sampleConfig: process.env['JWT_SECRET'] || 'ss',
+  CARD_QRCODE_SECRET: process.env[CONFIG.CARD_QRCODE_SECRET] || 'TEST_SECRET',
 });

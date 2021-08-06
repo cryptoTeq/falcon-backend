@@ -13,6 +13,7 @@ import { WalletsModule } from './wallets/wallets.module';
 import { AssetsModule } from './assets/assets.module';
 import { MarketModule } from './market/market.module';
 import configuration from './config/configuration';
+import { CardsModule } from './cards/cards.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import configuration from './config/configuration';
     }),
     UsersModule,
     AuthModule,
+    CardsModule,
     MyModule,
     WalletsModule,
     AssetsModule,
