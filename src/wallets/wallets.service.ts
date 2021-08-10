@@ -7,7 +7,7 @@ import { WalletAsset } from './entity/walletAsset.entity';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/types';
 import { MyAssetDto } from '../my/myDto';
-import { Utils } from 'src/utils';
+import { Utils } from '../utils';
 
 @Injectable()
 export class WalletsService {
