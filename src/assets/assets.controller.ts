@@ -5,8 +5,8 @@ import { AssetsService } from './assets.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Asset } from './asset.entity';
 import { AssetDto } from './assetDto';
-import { User } from 'src/users/user.entity';
-import { UsersService } from 'src/users/users.service';
+import { User } from '../users/user.entity';
+import { UsersService } from '../users/users.service';
 import { getAssetAvatar } from './assets.utils';
 
 @Controller('assets')

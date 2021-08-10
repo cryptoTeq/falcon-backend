@@ -12,6 +12,10 @@ export class Auth extends BaseEntity {
   @Column({ name: 'user_id' })
   userId: number;
 
+  @AutoMap()
+  @Column('json', { default: [] })
+  deviceIds: string[]; //TODO: check if the sender's deviceID is in user's trusted devices
+
   @Column({
     type: 'varchar',
     length: 100,

@@ -1,6 +1,6 @@
 import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
-import { WalletAsset } from 'src/wallets/entity/walletAsset.entity';
+import { WalletAsset } from '../wallets/entity/walletAsset.entity';
 
 export default class CreateWalletAssets implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {

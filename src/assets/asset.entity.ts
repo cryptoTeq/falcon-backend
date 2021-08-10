@@ -3,6 +3,7 @@ import { AutoMap } from '@automapper/classes';
 import { BaseEntity, BASE_ENTITY_SATUSES } from '../database/baseEntity';
 
 const ASSET_DEFAULT_VALUES = {
+  //TODO: Why not used
   avatarUrl: 'THEME_ASSETSYMBOL.png',
   avatarUrlExample: 'royal_black_tik.png',
 };
@@ -14,11 +15,16 @@ export enum AssetTypes {
   REAL_ESTATE = 'REAL_STATE',
 }
 
+export enum AssetStatus {
+  HIDDEN = 'HIDDEN',
+  ACTIVE = 'ACTIVE',
+}
+
 @Entity('assets')
 export class Asset extends BaseEntity {
   constructor() {
     super();
-    this.status = BASE_ENTITY_SATUSES.ACTIVE;
+    this.status = AssetStatus.ACTIVE;
   }
 
   @AutoMap()
@@ -44,4 +50,20 @@ export class Asset extends BaseEntity {
   @Column('json', { default: {} })
   @AutoMap()
   extras: any;
+
+  @Column({
+    type: 'enum',
+    enum: AssetStatus,
+    default: AssetStatus.ACTIVE,
+  })
+  @AutoMap()
+  status: AssetStatus;
+
+  @Column('json', { default: [] })
+  convertables: string[];
+
+  convertableTo() {
+    const defaultConvertables = ['CAD'];
+    return [...this.convertables, ...defaultConvertables];
+  }
 }

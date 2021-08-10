@@ -18,6 +18,10 @@ export class AssetsService {
     });
   }
 
+  async findById(id: number): Promise<Asset> {
+    return this.assetsRepository.findOne(id);
+  }
+
   findBySymbol(symbol: string): Promise<Asset> {
     return this.assetsRepository.findOne({
       where: { symbol: symbol.toUpperCase() },
