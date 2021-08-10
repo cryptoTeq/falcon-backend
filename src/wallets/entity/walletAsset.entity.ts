@@ -32,7 +32,4 @@ export class WalletAsset extends BaseEntity {
   @Column('json', { default: {} })
   @AutoMap()
   extras: any;
-
-  @AutoMap()
-  type: string;
 }

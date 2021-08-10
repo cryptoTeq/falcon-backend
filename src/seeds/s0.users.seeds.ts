@@ -11,10 +11,51 @@ export default class CreateUsers implements Seeder {
       .into(User)
       .values([
         {
+          firstName: 'CIBC Credit Account',
+          kyc: true,
+          lastName: '',
+          defaultWalletId: 1,
+          avatarUrl: '79ba1628-cc65-11eb-b8bc-0242ac130003.jpg',
+          preferences: {
+            timezone: 'America/Toronto',
+          },
+        },
+        {
+          firstName: 'Asset Converter',
+          kyc: true,
+          lastName: '',
+          defaultWalletId: 2,
+          avatarUrl: '79ba1628-cc65-11eb-b8bc-0242ac130003.jpg',
+          preferences: {
+            timezone: 'America/Toronto',
+          },
+        },
+        {
+          firstName: 'Asset Holder',
+          kyc: true,
+          lastName: '',
+          defaultWalletId: 3,
+          avatarUrl: '79ba1628-cc65-11eb-b8bc-0242ac130003.jpg',
+          preferences: {
+            timezone: 'America/Toronto',
+          },
+        },
+        {
+          firstName: 'System Agent',
+          kyc: true,
+          lastName: '',
+          defaultWalletId: 3,
+          avatarUrl: '79ba1628-cc65-11eb-b8bc-0242ac130003.jpg',
+          preferences: {
+            timezone: 'America/Toronto',
+          },
+        },
+
+        {
           firstName: 'Amir Mohsen',
           kyc: false,
           lastName: 'Hossein Zadeh',
-          defaultWalletId: 1,
+          defaultWalletId: 4,
           avatarUrl: '79ba1628-cc65-11eb-b8bc-0242ac130003.jpg',
           preferences: {
             timezone: 'America/Toronto',
@@ -23,7 +64,7 @@ export default class CreateUsers implements Seeder {
         {
           firstName: 'Amir Ahmad',
           kyc: true,
-          defaultWalletId: 3,
+          defaultWalletId: 5,
           lastName: 'Hosseinzadeh',
           preferences: {
             locale: 'de',
@@ -33,7 +74,7 @@ export default class CreateUsers implements Seeder {
         {
           firstName: 'Amir Hadi',
           kyc: true,
-          defaultWalletId: 2,
+          defaultWalletId: 6,
           lastName: 'Hossein-zadeh',
         },
       ])

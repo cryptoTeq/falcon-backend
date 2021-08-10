@@ -1,7 +1,7 @@
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/types';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { Utils } from 'src/utils';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Utils } from '../utils';
 import {
   Controller,
   Get,
@@ -18,10 +18,10 @@ import {
   MyTransactionDto,
   MyWalletDto,
 } from './myDto';
-import { UsersService } from 'src/users/users.service';
-import { User, Preferences } from 'src/users/user.entity';
-import { WalletsService } from 'src/wallets/wallets.service';
-import { AssetsService } from 'src/assets/assets.service';
+import { UsersService } from '../users/users.service';
+import { User, Preferences } from '../users/user.entity';
+import { WalletsService } from '../wallets/wallets.service';
+import { AssetsService } from '../assets/assets.service';
 import { WalletAsset } from '../wallets/entity/walletAsset.entity';
 import { getAssetAvatar } from '../assets/assets.utils';
 import { TransactionsService } from '../wallets/transactions.service';
@@ -168,7 +168,6 @@ export class MyController {
     user: User,
   ): Promise<MyAssetDto> {
     const result = this.mapper.map(myAsset, MyAssetDto, MyAssetDto);
-    // const asset = await this.assetsService.findById(myAsset.assetId);
     const { price: marketPrice } = await this.marketService.marketDataFor(
       myAsset.symbol,
     );
@@ -178,7 +177,6 @@ export class MyController {
     result.currencyCode = user.getCurrencyCode();
     result.currencySign = user.getCurrencySign();
     result.assetValue = marketPrice; //TODO: Rename all value to price
-    // result.symbol = asset.symbol;
 
     return result;
   }

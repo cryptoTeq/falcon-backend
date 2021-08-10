@@ -9,7 +9,7 @@ import { UserBaseDto } from '../users/dto/userDto';
 import { WalletsService } from '../wallets/wallets.service';
 import { AssetsService } from '../assets/assets.service';
 import { TransactionsService } from '../wallets/transactions.service';
-import { MarketService } from 'src/market/market.service';
+import { MarketService } from '../market/market.service';
 
 const getUser = (): User => {
   let getAvatarUrl = jest.fn();

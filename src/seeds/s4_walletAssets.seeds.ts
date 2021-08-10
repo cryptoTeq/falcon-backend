@@ -1,6 +1,7 @@
 import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
-import { WalletAsset } from 'src/wallets/entity/walletAsset.entity';
+import { WalletAsset } from '../wallets/entity/walletAsset.entity';
+import { SYSTEM_WALLETS } from 'src/wallets/entity/wallet.entity';
 
 export default class CreateWalletAssets implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {
@@ -12,38 +13,10 @@ export default class CreateWalletAssets implements Seeder {
       .values([
         {
           status: 'ACTIVE',
-          assetId: 2,
-          averageInValueUsd: '0.00011',
-          size: '90000',
-          walletId: 1,
-        },
-        {
-          status: 'ACTIVE',
-          assetId: 3,
-          averageInValueUsd: '200.00',
-          size: '100236',
-          walletId: 1,
-        },
-        {
-          status: 'ACTIVE',
-          assetId: 3,
-          averageInValueUsd: '200.00',
-          size: '1034536',
-          walletId: 2,
-        },
-        {
-          status: 'ACTIVE',
-          assetId: 5,
-          averageInValueUsd: '890.24',
-          size: '735348',
-          walletId: 2,
-        },
-        {
-          status: 'ACTIVE',
-          assetId: 4,
-          averageInValueUsd: '13000.24',
-          size: '737348',
-          walletId: 3,
+          assetId: 1,
+          averageInValueUsd: '0.79',
+          size: '15.00',
+          walletId: SYSTEM_WALLETS.BANK_ACCOUNT_WALLET_ID,
         },
       ])
       .execute();

@@ -4,7 +4,7 @@ import { IsString } from 'class-validator';
 export class CardDepositReqDto {
   @AutoMap()
   @IsString()
-  qrMessage: string;
+  qrCode: string;
 
   @AutoMap()
   @IsString()

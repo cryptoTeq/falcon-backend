@@ -11,7 +11,9 @@ export class TransactionsService {
     private transactionsRepository: Repository<WalletTransaction>,
   ) {}
 
-  transactionsFor(filters: TransactionFilters): Promise<WalletTransaction[]> {
+  async transactionsFor(
+    filters: TransactionFilters,
+  ): Promise<WalletTransaction[]> {
     console.log(`filters`, filters);
 
     const fromFilters = {
@@ -33,5 +35,10 @@ export class TransactionsService {
       where: [fromFilters, toFilters],
       order: { createdAt: 'DESC' },
     });
+  }
+
+  async addTx(tx: WalletTransaction): Promise<WalletTransaction> {
+    //TODO: refactor all functions to accept object not bare params
+    return this.transactionsRepository.save(tx);
   }
 }

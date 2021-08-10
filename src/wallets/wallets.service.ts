@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BASE_ENTITY_SATUSES } from 'src/database/baseEntity';
+import { BASE_ENTITY_SATUSES } from '../database/baseEntity';
 import { Repository, getManager } from 'typeorm';
 import { Wallet } from './entity/wallet.entity';
 import { WalletAsset } from './entity/walletAsset.entity';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/types';
-import { MyAssetDto } from 'src/my/myDto';
+import { MyAssetDto } from '../my/myDto';
+import { Utils } from 'src/utils';
 
 @Injectable()
 export class WalletsService {
@@ -43,26 +44,48 @@ export class WalletsService {
       wa.type = a.type;
       result.push(wa);
     });
-
     return result;
   }
 
-  async deposit(
+  async getWalletAsset(
     walletId: number,
     assetId: number,
-    value: string,
   ): Promise<WalletAsset> {
-    console.log(`assetId`, assetId, walletId, value);
-    let wAsset = await this.walletAssetsRepository.findOne({
+    return this.walletAssetsRepository.findOne({
       where: { walletId, assetId, status: BASE_ENTITY_SATUSES.ACTIVE },
     });
-    if (!wAsset) {
-      wAsset = new WalletAsset();
-      wAsset.assetId = assetId;
-      wAsset.size = '0.0';
-      // wAsset.symbol
-    }
+  }
 
-    return null;
+  async transfer(
+    fromWalletId: number,
+    toWalletId: number,
+    assetId: number,
+    size: string,
+    totalValueUsd: string,
+  ): Promise<WalletAsset> {
+    const wAssetfrom = await this.getWalletAsset(fromWalletId, assetId);
+    if (Utils.isLessThan(wAssetfrom.size, size)) return;
+
+    let wAssetTo = await this.getWalletAsset(toWalletId, assetId);
+    if (!wAssetTo) {
+      wAssetTo = new WalletAsset();
+      wAssetTo.assetId = assetId;
+      wAssetTo.size = '0.0';
+      wAssetTo.averageInValueUsd = '0.0';
+      wAssetTo.walletId = toWalletId;
+    }
+    // Deduct Asset
+    wAssetfrom.size = Utils.minus(wAssetfrom.size, size);
+    this.walletAssetsRepository.save(wAssetfrom);
+
+    // Add Asset
+    wAssetTo.size = Utils.add(wAssetTo.size, size);
+    wAssetTo.averageInValueUsd = Utils.average(
+      wAssetTo.averageInValueUsd,
+      totalValueUsd,
+    );
+    this.walletAssetsRepository.save(wAssetTo);
+
+    return wAssetTo;
   }
 }

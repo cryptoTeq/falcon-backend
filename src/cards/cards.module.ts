@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MarketModule } from 'src/market/market.module';
-import { UsersModule } from 'src/users/users.module';
-import { WalletsModule } from 'src/wallets/wallets.module';
+import { AssetsModule } from '../assets/assets.module';
+import { MarketModule } from '../market/market.module';
+import { UsersModule } from '../users/users.module';
+import { WalletsModule } from '../wallets/wallets.module';
 import { Card } from './card.entity';
 import { CardsController } from './cards.controller';
 import { CardsService } from './cards.service';
@@ -12,7 +13,9 @@ import { CardsService } from './cards.service';
   imports: [
     UsersModule,
     ConfigModule,
+    AssetsModule,
     WalletsModule,
+    MarketModule,
     TypeOrmModule.forFeature([Card]),
   ],
   controllers: [CardsController],

@@ -15,11 +15,16 @@ export enum AssetTypes {
   REAL_ESTATE = 'REAL_STATE',
 }
 
+export enum AssetStatus {
+  HIDDEN = 'HIDDEN',
+  ACTIVE = 'ACTIVE',
+}
+
 @Entity('assets')
 export class Asset extends BaseEntity {
   constructor() {
     super();
-    this.status = BASE_ENTITY_SATUSES.ACTIVE;
+    this.status = AssetStatus.ACTIVE;
   }
 
   @AutoMap()
@@ -45,4 +50,20 @@ export class Asset extends BaseEntity {
   @Column('json', { default: {} })
   @AutoMap()
   extras: any;
+
+  @Column({
+    type: 'enum',
+    enum: AssetStatus,
+    default: AssetStatus.ACTIVE,
+  })
+  @AutoMap()
+  status: AssetStatus;
+
+  @Column('json', { default: [] })
+  convertables: string[];
+
+  convertableTo() {
+    const defaultConvertables = ['CAD'];
+    return [...this.convertables, ...defaultConvertables];
+  }
 }

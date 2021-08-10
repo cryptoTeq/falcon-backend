@@ -1,12 +1,13 @@
 import { Entity, Column } from 'typeorm';
 import { AutoMap } from '@automapper/classes';
 import { BaseEntity } from '../database/baseEntity';
+import { AssetTypes } from 'src/assets/asset.entity';
 
 const DEFAULT_VALUES = {
   CANADA: 'CANADA',
 };
 
-export enum Status {
+export enum CardStatus {
   PENDING = 'PENDING',
   ACTIVE = 'ACTIVE',
   DEPOSIT = 'DEPOSIT',
@@ -26,7 +27,7 @@ export class QrCodeInfo {
 export class Card extends BaseEntity {
   constructor() {
     super();
-    this.status = Status.PENDING;
+    this.status = CardStatus.PENDING;
   }
 
   @AutoMap()
@@ -38,8 +39,20 @@ export class Card extends BaseEntity {
   key: string;
 
   @AutoMap()
-  @Column({ name: 'asset_id' })
+  @Column()
+  symbol: string;
+
+  @AutoMap()
+  @Column()
   assetId: number;
+
+  @Column({
+    type: 'enum',
+    enum: AssetTypes,
+    default: AssetTypes.UNKNOWN,
+  })
+  @AutoMap()
+  assetType: AssetTypes;
 
   @AutoMap()
   @Column({ default: '0' })
@@ -57,6 +70,10 @@ export class Card extends BaseEntity {
   })
   @AutoMap()
   depositAt: Date;
+
+  @Column('json', { default: {} })
+  @AutoMap()
+  depositInfo: any;
 
   getOperationalZone(): string {
     return DEFAULT_VALUES.CANADA;

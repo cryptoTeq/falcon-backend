@@ -1,6 +1,6 @@
 import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
-import { Asset, AssetTypes } from '../assets/asset.entity';
+import { Asset, AssetStatus, AssetTypes } from '../assets/asset.entity';
 
 export default class CreateAssets implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {
@@ -11,42 +11,49 @@ export default class CreateAssets implements Seeder {
       .into(Asset)
       .values([
         {
-          status: 'ACTIVE',
+          status: AssetStatus.ACTIVE,
           type: AssetTypes.FIAT,
           symbol: 'CAD',
           name: 'Canadian Dollar',
           sortOrder: 1,
         },
         {
-          status: 'ACTIVE',
+          status: AssetStatus.ACTIVE,
+          symbol: 'RWAC',
+          name: 'Royal Asset Card',
+          type: AssetTypes.FIAT,
+          sortOrder: 2,
+        },
+        {
+          status: AssetStatus.ACTIVE,
           symbol: 'TIK',
           name: 'Tikcoin',
           type: AssetTypes.CRYPTO,
           sortOrder: 2,
         },
         {
-          status: 'ACTIVE',
+          status: AssetStatus.ACTIVE,
           symbol: 'BTC',
           type: AssetTypes.CRYPTO,
           name: 'Bitcoin',
           sortOrder: 3,
         },
         {
-          status: 'ACTIVE',
+          status: AssetStatus.ACTIVE,
           symbol: 'ETH',
           name: 'Ethereum',
           type: AssetTypes.CRYPTO,
           sortOrder: 4,
         },
         {
-          status: 'ACTIVE',
+          status: AssetStatus.ACTIVE,
           symbol: 'DOGE',
           type: AssetTypes.CRYPTO,
           name: 'Dogecoin',
           sortOrder: 5,
         },
         {
-          status: 'ACTIVE',
+          status: AssetStatus.ACTIVE,
           type: AssetTypes.CRYPTO,
           symbol: 'XRP',
           name: 'XRP',

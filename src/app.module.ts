@@ -24,6 +24,7 @@ import { CardsModule } from './cards/cards.module';
     }),
     TypeOrmModule.forRootAsync({
       useFactory: async () =>
+        //TODO: Check connection number in loops
         Object.assign(await getConnectionOptions(), {
           autoLoadEntities: true,
         }),
