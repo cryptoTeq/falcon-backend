@@ -1,5 +1,4 @@
 import { InjectMapper } from '@automapper/nestjs';
-import { ConfigService } from '@nestjs/config';
 import { Mapper } from '@automapper/types';
 import { Controller, Get } from '@nestjs/common';
 import { UsersService } from './users.service';
@@ -7,14 +6,12 @@ import { UsersService } from './users.service';
 @Controller('users')
 export class UsersController {
   constructor(
-    private configService: ConfigService,
     private readonly userService: UsersService,
     @InjectMapper('classMapper') private mapper: Mapper,
   ) {}
 
   @Get()
   findAll() {
-    console.log(`config`, this.configService.get<string>('sampleConfig'));
     return { ok: true };
   }
 

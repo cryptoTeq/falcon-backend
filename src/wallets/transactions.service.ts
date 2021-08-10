@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { WalletTransaction } from './entity/walletTransaction.entity';
+import {
+  TransactionStatus,
+  WalletTransaction,
+} from './entity/walletTransaction.entity';
 import { TransactionFilters } from './interfaces';
+import { FactoryType, TransactionFactory } from './transaction.factory';
 
 @Injectable()
 export class TransactionsService {
@@ -11,7 +15,9 @@ export class TransactionsService {
     private transactionsRepository: Repository<WalletTransaction>,
   ) {}
 
-  transactionsFor(filters: TransactionFilters): Promise<WalletTransaction[]> {
+  async transactionsFor(
+    filters: TransactionFilters,
+  ): Promise<WalletTransaction[]> {
     console.log(`filters`, filters);
 
     const fromFilters = {
@@ -33,5 +39,34 @@ export class TransactionsService {
       where: [fromFilters, toFilters],
       order: { createdAt: 'DESC' },
     });
+  }
+
+  async bulkSave(
+    transactions: WalletTransaction[],
+  ): Promise<WalletTransaction[]> {
+    return this.transactionsRepository.save(transactions);
+  }
+
+  async addTx(tx: WalletTransaction): Promise<WalletTransaction> {
+    //TODO: refactor all functions to accept object not bare params
+    return this.transactionsRepository.save(tx);
+  }
+
+  async getBy(txId: number): Promise<WalletTransaction> {
+    return this.transactionsRepository.findOne(txId);
+  }
+
+  async updateStatus(
+    txId: number,
+    newStatus: TransactionStatus,
+  ): Promise<WalletTransaction> {
+    const wtx = await this.getBy(txId);
+    if (!wtx) return null;
+    wtx.status = newStatus;
+    return this.transactionsRepository.save(wtx);
+  }
+
+  createTransaction(type: FactoryType, params: object): WalletTransaction {
+    return TransactionFactory.createTransaction(type, params);
   }
 }

@@ -14,13 +14,16 @@ export enum BASE_ENTITY_SATUSES {
 
 @Entity()
 export class BaseEntity {
+  @AutoMap()
   @PrimaryGeneratedColumn()
   id: number;
 
   @CreateDateColumn({ name: 'created_at' })
+  @AutoMap()
   createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
+  @AutoMap()
   updatedAt: Date;
 
   @AutoMap()

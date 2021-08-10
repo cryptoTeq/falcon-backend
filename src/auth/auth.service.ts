@@ -30,6 +30,7 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<JWTPayloadDto> {
     const authData = await this.findByUsername(username);
+
     if (authData && authData.passwordHash === pass) {
       //TODO: password hash instead of plain password
       const user = await this.usersService.findById(authData.userId);

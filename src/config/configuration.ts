@@ -1,3 +1,17 @@
+export const CONFIG = {
+  CARD_QRCODE_SECRET: 'CARD_QRCODE_SECRET',
+  CARD_SERIAL_LENGTH: 'CARD_SERIAL_LENGTH',
+  CARD_KEY_LENGTH: 'CARD_KEY_LENGTH',
+};
+
 export default () => ({
-  sampleConfig: process.env['JWT_SECRET'] || 'ss',
+  CARD_QRCODE_SECRET: process.env[CONFIG.CARD_QRCODE_SECRET] || 'TEST_SECRET',
+  CARD_SERIAL_LENGTH:
+    (process.env[CONFIG.CARD_SERIAL_LENGTH] &&
+      Number(process.env[CONFIG.CARD_SERIAL_LENGTH])) ||
+    11,
+  CARD_KEY_LENGTH:
+    (process.env[CONFIG.CARD_KEY_LENGTH] &&
+      Number(process.env[CONFIG.CARD_KEY_LENGTH])) ||
+    64,
 });

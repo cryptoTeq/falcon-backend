@@ -2,6 +2,7 @@ import { TransactionStatus } from './entity/walletTransaction.entity';
 
 export interface TransactionFilters {
   walletId: number;
-  assetId?: number;
+  fromAssetId?: number;
+  toAssetId?: number;
   status?: TransactionStatus;
 }

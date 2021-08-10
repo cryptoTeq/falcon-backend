@@ -22,7 +22,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate({ username }: JWTPayloadDto) {
     const authUser = await this.authService.findByUsername(username);
     if (!authUser) throw new HttpException('', HttpStatus.NOT_FOUND);
-    const user = await this.usersService.findById(authUser.id);
+    const user = await this.usersService.findById(authUser.userId);
     if (!user) throw new HttpException('', HttpStatus.NOT_FOUND);
     return user;
   }

@@ -90,8 +90,11 @@ export class MyController {
   async enrichedAssetsFor(user: User): Promise<MyAssetDto[]> {
     const myAssets = await this.walletsService.assetsFor(user.defaultWalletId);
     const enrichedAssetsDto = await Promise.all(
-      myAssets.map((a) => this.enrichMyAssetsToDto(a, user)),
-    ).catch((e) => []); //TODO: Will Catch work?
+      // TODO: verify it's working
+      myAssets.map(async (a) =>
+        this.assetsService.enrichMyAssetsToDto(a, user),
+      ),
+    ).catch((e) => []);
     return enrichedAssetsDto;
   }
 
@@ -138,7 +141,8 @@ export class MyController {
       throw new HttpException('Symbol Not Found', HttpStatus.NOT_FOUND);
     const transactions = await this.transactionsService.transactionsFor({
       walletId: user.defaultWalletId,
-      assetId: asset.id,
+      fromAssetId: asset.id,
+      toAssetId: asset.id,
     });
     return transactions.map((tx) => this.enrichMyTransaction(tx, asset, user));
   }
@@ -155,25 +159,7 @@ export class MyController {
       WalletTransaction,
     );
     result.symbol = asset.symbol;
-    result.from = 'FROM';
-    result.to = 'TO';
     // result.incoming
-    return result;
-  }
-
-  async enrichMyAssetsToDto(
-    myAsset: WalletAsset,
-    user: User,
-  ): Promise<MyAssetDto> {
-    const result = this.mapper.map(myAsset, MyAssetDto, WalletAsset);
-    const { price: marketPrice } = await this.marketService.marketDataFor(
-      myAsset.symbol,
-    );
-    result.value = (Number(marketPrice) * Number(result.size)).toString();
-    result.avatar = getAssetAvatar(result.symbol, user.getTheme());
-    result.currencyCode = user.getCurrencyCode();
-    result.currencySign = user.getCurrencySign();
-    result.assetValue = marketPrice; //TODO: Rename all value to price
     return result;
   }
 
