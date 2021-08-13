@@ -1,4 +1,4 @@
-import { Utils } from 'src/utils';
+import { Utils } from '../utils';
 import { EnrichedAsset } from '../assets/asset.entity';
 import { Wallet } from './entity/wallet.entity';
 import { WalletAsset } from './entity/walletAsset.entity';
