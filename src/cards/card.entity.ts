@@ -1,10 +1,13 @@
 import { Entity, Column } from 'typeorm';
 import { AutoMap } from '@automapper/classes';
 import { BaseEntity } from '../database/baseEntity';
-import { AssetTypes } from 'src/assets/asset.entity';
+import { AssetTypes } from '../assets/asset.entity';
 
-const DEFAULT_VALUES = {
-  CANADA: 'CANADA',
+export const OperationalZone = {
+  CANADA: {
+    code: 'CA',
+    name: 'CANADA',
+  },
 };
 
 export enum CardStatus {
@@ -25,11 +28,6 @@ export class QrCodeInfo {
 
 @Entity('cards')
 export class Card extends BaseEntity {
-  constructor() {
-    super();
-    this.status = CardStatus.PENDING;
-  }
-
   @AutoMap()
   @Column({ length: 100 })
   serial: string;
@@ -54,9 +52,29 @@ export class Card extends BaseEntity {
   @AutoMap()
   assetType: AssetTypes;
 
+  @Column({
+    type: 'enum',
+    enum: CardStatus,
+    default: CardStatus.PENDING,
+  })
+  @AutoMap()
+  status: CardStatus;
+
   @AutoMap()
   @Column({ default: '0' })
   size: string;
+
+  @AutoMap()
+  @Column()
+  generationRequestId: number; // TODO: Persist Generate Requests in Database
+
+  @AutoMap()
+  @Column()
+  qrCode: string;
+
+  @AutoMap()
+  @Column()
+  generationTxId: number;
 
   @Column('json', { default: {} })
   @AutoMap()
@@ -76,10 +94,40 @@ export class Card extends BaseEntity {
   depositInfo: any;
 
   getOperationalZone(): string {
-    return DEFAULT_VALUES.CANADA;
+    return OperationalZone.CANADA.code;
   }
 
   getSerialNumber(): string {
     return this.getOperationalZone() + this.serial;
   }
 }
+
+export enum CardGenReqStatus {
+  PENDING = 'PENDING',
+  FAIL = 'FAIL',
+  SUCCESS = 'SUCCESS',
+}
+
+// @Entity('card-gen-requests')
+// export class CardGenerationRequest extends BaseEntity {
+// TODO: CardGeneration should be an Async operation
+//   @AutoMap()
+//   @Column()
+//   assetId: number;
+
+//   @AutoMap()
+//   @Column({ default: '0' })
+//   size: string;
+
+//   @AutoMap()
+//   @Column({ default: '0' })
+//   fromWalletId: number;
+
+//   @Column({
+//     type: 'enum',
+//     enum: CardGenReqStatus,
+//     default: CardGenReqStatus.PENDING,
+//   })
+//   @AutoMap()
+//   status: CardGenReqStatus;
+// }

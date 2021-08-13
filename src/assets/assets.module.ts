@@ -5,9 +5,15 @@ import { AssetsController } from './assets.controller';
 import { AssetsService } from './assets.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from '../users/users.module';
+import { MarketModule } from 'src/market/market.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Asset]), ConfigModule, UsersModule],
+  imports: [
+    TypeOrmModule.forFeature([Asset]),
+    ConfigModule,
+    UsersModule,
+    MarketModule,
+  ],
   providers: [AssetsService],
   exports: [AssetsService],
   controllers: [AssetsController],

@@ -48,7 +48,7 @@ export class Asset extends BaseEntity {
   sortOrder: number;
 
   @Column('json', { default: {} })
-  @AutoMap()
+  //@AutoMap() // TODO: should it AutoMap
   extras: any;
 
   @Column({
@@ -66,4 +66,9 @@ export class Asset extends BaseEntity {
     const defaultConvertables = ['CAD'];
     return [...this.convertables, ...defaultConvertables];
   }
+}
+
+export class EnrichedAsset extends Asset {
+  assetValue: string;
+  assetValueUsd: string;
 }

@@ -122,8 +122,10 @@ export class MyTransactionDto {
   incoming: boolean;
 
   @IsString()
+  @AutoMap()
   from: string;
 
   @IsString()
+  @AutoMap()
   to: string;
 }

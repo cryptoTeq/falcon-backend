@@ -11,9 +11,7 @@ export class Utils {
   }
 
   static convertToBig(numbers: string[]) {
-    const result: Big[] = [];
-    numbers.map((n) => Big(n));
-    return result;
+    return numbers.map((n) => Big(n));
   }
 
   static isLessThan(a: string, b: string) {

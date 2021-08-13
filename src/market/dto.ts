@@ -3,6 +3,7 @@ import { Asset } from 'src/assets/asset.entity';
 export class AssetMarketData {
   symbol: string;
   price: string;
+  priceUsd: string;
 }
 
 export enum MarketTransactionStatus {

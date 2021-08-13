@@ -44,7 +44,7 @@ export default class CreateUsers implements Seeder {
           firstName: 'System Agent',
           kyc: true,
           lastName: '',
-          defaultWalletId: 3,
+          defaultWalletId: 4,
           avatarUrl: '79ba1628-cc65-11eb-b8bc-0242ac130003.jpg',
           preferences: {
             timezone: 'America/Toronto',
@@ -55,7 +55,7 @@ export default class CreateUsers implements Seeder {
           firstName: 'Amir Mohsen',
           kyc: false,
           lastName: 'Hossein Zadeh',
-          defaultWalletId: 4,
+          defaultWalletId: 5,
           avatarUrl: '79ba1628-cc65-11eb-b8bc-0242ac130003.jpg',
           preferences: {
             timezone: 'America/Toronto',
@@ -64,7 +64,7 @@ export default class CreateUsers implements Seeder {
         {
           firstName: 'Amir Ahmad',
           kyc: true,
-          defaultWalletId: 5,
+          defaultWalletId: 6,
           lastName: 'Hosseinzadeh',
           preferences: {
             locale: 'de',
@@ -74,7 +74,7 @@ export default class CreateUsers implements Seeder {
         {
           firstName: 'Amir Hadi',
           kyc: true,
-          defaultWalletId: 6,
+          defaultWalletId: 7,
           lastName: 'Hossein-zadeh',
         },
       ])

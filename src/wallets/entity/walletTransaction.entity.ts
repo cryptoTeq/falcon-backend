@@ -10,6 +10,8 @@ export enum TransactionStatus {
 
 export enum TransactionType {
   FROM_BANK_ACC = 'FROM_BANK_ACC',
+  CARD_GENERATION = 'CARD_GENERATION',
+
   // FROM_ASSET_CARD = 'FROM_ASSET_CARD',
   // FROM_CLIENT = 'FROM_CLIENT',
   // TO_ASSET_CARD = 'TO_ASSET_CARD', // card generation
@@ -26,12 +28,20 @@ export class WalletTransaction extends BaseEntity {
   }
 
   @AutoMap()
-  @Column({ name: 'asset_id' })
-  assetId: number;
+  @Column({ name: 'from_asset_id' })
+  fromAssetId: number;
+
+  @AutoMap()
+  @Column({ name: 'to_asset_id' })
+  toAssetId: number;
 
   @AutoMap()
   @Column()
-  symbol: string;
+  fromSymbol: string;
+
+  @AutoMap()
+  @Column()
+  toSymbol: string;
 
   @AutoMap()
   @Column()
@@ -46,10 +56,17 @@ export class WalletTransaction extends BaseEntity {
 
   @AutoMap()
   @Column({
-    name: 'asset_value_usd',
+    name: 'from_asset_value_usd',
     default: '0.0',
   })
-  assetValueUsd: string; // each 1 asset price
+  fromAssetValueUsd: string; // each 1 asset price
+
+  @AutoMap()
+  @Column({
+    name: 'to_asset_value_usd',
+    default: '0.0',
+  })
+  toAssetValueUsd: string; // each 1 asset price
 
   @AutoMap()
   @Column({ name: 'tx_fee_usd', default: '0.0' })
@@ -114,10 +131,6 @@ export class WalletTransaction extends BaseEntity {
   @AutoMap()
   type: TransactionType;
 
-  @Column({ nullable: true })
-  @AutoMap()
-  refTxId: number; // Reference Transaction Id
-
   @Column({
     // TODO: validate utc datetime
     type: 'timestamp with time zone',
@@ -126,4 +139,8 @@ export class WalletTransaction extends BaseEntity {
   })
   @AutoMap()
   confirmedAt: Date;
+
+  @AutoMap()
+  @Column({ nullable: true })
+  prevTxId: number;
 }

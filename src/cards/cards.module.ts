@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TransactionsService } from '../wallets/transactions.service';
 import { AssetsModule } from '../assets/assets.module';
 import { MarketModule } from '../market/market.module';
 import { UsersModule } from '../users/users.module';

@@ -19,13 +19,6 @@ export default class CreateAssets implements Seeder {
         },
         {
           status: AssetStatus.ACTIVE,
-          symbol: 'RWAC',
-          name: 'Royal Asset Card',
-          type: AssetTypes.FIAT,
-          sortOrder: 2,
-        },
-        {
-          status: AssetStatus.ACTIVE,
           symbol: 'TIK',
           name: 'Tikcoin',
           type: AssetTypes.CRYPTO,

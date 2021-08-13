@@ -2,22 +2,35 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BASE_ENTITY_SATUSES } from '../database/baseEntity';
 import { Repository, getManager } from 'typeorm';
-import { Wallet } from './entity/wallet.entity';
+import { SYSTEM_WALLETS, Wallet } from './entity/wallet.entity';
 import { WalletAsset } from './entity/walletAsset.entity';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/types';
 import { MyAssetDto } from '../my/myDto';
 import { Utils } from '../utils';
+import { TransferReq, TransferResult } from './dto';
+import { Asset, EnrichedAsset } from '../assets/asset.entity';
+import { TransactionsService } from './transactions.service';
+import { FactoryType } from './transaction.factory';
 
 @Injectable()
 export class WalletsService {
   constructor(
     @InjectRepository(Wallet)
-    private walletsRepository: Repository<Wallet>,
+    private readonly walletsRepository: Repository<Wallet>,
     @InjectRepository(WalletAsset)
-    private walletAssetsRepository: Repository<WalletAsset>,
+    private readonly walletAssetsRepository: Repository<WalletAsset>,
+    private readonly transactionsService: TransactionsService,
     @InjectMapper('classMapper') private mapper: Mapper,
   ) {}
+
+  async getAssetHolderWallet(): Promise<Wallet> {
+    return this.getById(SYSTEM_WALLETS.ASSET_HOLDER_WALLET.id);
+  }
+
+  async getById(id: number): Promise<Wallet> {
+    return this.walletsRepository.findOne(id);
+  }
 
   async assetsFor(walletId: number): Promise<MyAssetDto[]> {
     const query = `
@@ -56,36 +69,51 @@ export class WalletsService {
     });
   }
 
-  async transfer(
-    fromWalletId: number,
-    toWalletId: number,
-    assetId: number,
-    size: string,
-    totalValueUsd: string,
-  ): Promise<WalletAsset> {
-    const wAssetfrom = await this.getWalletAsset(fromWalletId, assetId);
-    if (Utils.isLessThan(wAssetfrom.size, size)) return;
+  async transfer(req: TransferReq): Promise<TransferResult> {
+    const { enrichedAsset, fromWallet, size, saveTransaction, toWallet } = req;
+    const wAssetFrom = await this.getWalletAsset(
+      fromWallet.id,
+      enrichedAsset.id,
+    );
+    if (Utils.isLessThan(wAssetFrom.size, size))
+      return new TransferResult(false, 'No sufficient fund');
 
-    let wAssetTo = await this.getWalletAsset(toWalletId, assetId);
+    let wAssetTo = await this.getWalletAsset(toWallet.id, enrichedAsset.id);
     if (!wAssetTo) {
       wAssetTo = new WalletAsset();
-      wAssetTo.assetId = assetId;
+      wAssetTo.assetId = enrichedAsset.id;
       wAssetTo.size = '0.0';
       wAssetTo.averageInValueUsd = '0.0';
-      wAssetTo.walletId = toWalletId;
+      wAssetTo.walletId = toWallet.id;
     }
     // Deduct Asset
-    wAssetfrom.size = Utils.minus(wAssetfrom.size, size);
-    this.walletAssetsRepository.save(wAssetfrom);
+    wAssetFrom.size = Utils.minus(wAssetFrom.size, size);
+    this.walletAssetsRepository.save(wAssetFrom);
 
     // Add Asset
     wAssetTo.size = Utils.add(wAssetTo.size, size);
     wAssetTo.averageInValueUsd = Utils.average(
       wAssetTo.averageInValueUsd,
-      totalValueUsd,
+      enrichedAsset.assetValueUsd,
     );
+
     this.walletAssetsRepository.save(wAssetTo);
 
-    return wAssetTo;
+    // Transaction
+    const tx = this.transactionsService.createTransaction(
+      FactoryType.ASSET_TRANSFER,
+      req,
+    );
+
+    const result = new TransferResult(true);
+    result.transactionSaved = saveTransaction;
+    result.enrichedAsset = enrichedAsset;
+    result.transaction = tx;
+    result.transactionSaved = req.saveTransaction;
+    if (req.saveTransaction) {
+      await this.transactionsService.bulkSave([tx]);
+    }
+
+    return result;
   }
 }

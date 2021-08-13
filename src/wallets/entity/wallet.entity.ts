@@ -12,9 +12,22 @@ export enum WalletType {
 }
 
 export const SYSTEM_WALLETS = {
-  BANK_ACCOUNT_WALLET_ID: 1,
-  ASSET_CONVERTER_WALLET_ID: 2,
-  ASSET_HOLDER_WALLET_ID: 3,
+  CIBC_CREDIT_CARD_WALLET: {
+    id: 1,
+    name: 'CIBC Credit Account',
+  },
+  ASSET_CONVERTER_WALLET: {
+    id: 2,
+    name: 'Asset Converter',
+  },
+  ASSET_HOLDER_WALLET: {
+    id: 3,
+    name: 'Asset Holder',
+  },
+  SYSTEM_AGENT: {
+    id: 4,
+    name: 'System Agent',
+  },
 };
 
 @Entity('wallets')
@@ -55,7 +68,7 @@ export class Wallet extends BaseEntity {
   @Column({ nullable: true, name: 'system_note' })
   systemNote: string;
 
-  getName(): string {
+  getName = (): string => {
     return this.name || WALLET_DEFAULT_VALUES.name;
-  }
+  };
 }

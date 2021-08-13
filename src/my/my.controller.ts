@@ -1,7 +1,6 @@
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/types';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { Utils } from '../utils';
 import {
   Controller,
   Get,
@@ -42,7 +41,6 @@ export class MyController {
     this.mapper.createMap(User, MyUserDto);
     this.mapper.createMap(Preferences, MyPreferencesDto);
     this.mapper.createMap(WalletAsset, MyAssetDto);
-    this.mapper.createMap(MyAssetDto, MyAssetDto);
     this.mapper.createMap(WalletTransaction, MyTransactionDto);
   }
 
@@ -92,8 +90,11 @@ export class MyController {
   async enrichedAssetsFor(user: User): Promise<MyAssetDto[]> {
     const myAssets = await this.walletsService.assetsFor(user.defaultWalletId);
     const enrichedAssetsDto = await Promise.all(
-      myAssets.map(async (a) => await this.enrichMyAssetsToDto(a, user)),
-    ).catch((e) => []); //TODO: Will Catch work?
+      // TODO: verify it's working
+      myAssets.map(async (a) =>
+        this.assetsService.enrichMyAssetsToDto(a, user),
+      ),
+    ).catch((e) => []);
     return enrichedAssetsDto;
   }
 
@@ -140,7 +141,8 @@ export class MyController {
       throw new HttpException('Symbol Not Found', HttpStatus.NOT_FOUND);
     const transactions = await this.transactionsService.transactionsFor({
       walletId: user.defaultWalletId,
-      assetId: asset.id,
+      fromAssetId: asset.id,
+      toAssetId: asset.id,
     });
     return transactions.map((tx) => this.enrichMyTransaction(tx, asset, user));
   }
@@ -157,27 +159,7 @@ export class MyController {
       WalletTransaction,
     );
     result.symbol = asset.symbol;
-    result.from = 'FROM';
-    result.to = 'TO';
     // result.incoming
-    return result;
-  }
-
-  async enrichMyAssetsToDto(
-    myAsset: MyAssetDto,
-    user: User,
-  ): Promise<MyAssetDto> {
-    const result = this.mapper.map(myAsset, MyAssetDto, MyAssetDto);
-    const { price: marketPrice } = await this.marketService.marketDataFor(
-      myAsset.symbol,
-    );
-
-    result.value = Utils.multiply(marketPrice, result.size);
-    result.avatar = getAssetAvatar(result.symbol, user.getTheme());
-    result.currencyCode = user.getCurrencyCode();
-    result.currencySign = user.getCurrencySign();
-    result.assetValue = marketPrice; //TODO: Rename all value to price
-
     return result;
   }
 
